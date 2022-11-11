@@ -1,0 +1,156 @@
+  <div class="col-md-12">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Administración de eventos</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formEvent" (ngSubmit)="onSaveEdit()">
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Nombre del evento </label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Nombre"
+                       formControlName="title">
+                       <p class="text-danger"
+                        *ngIf="this.formEvent.get('title').hasError('required') && this.formEvent.get('title').touched">
+                        ¡Debe ingresar este campo!
+                      </p>
+              </div>
+            </div>
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label>Fecha </label>
+                <input type="date"
+                       class="form-control"
+                       placeholder="fecha"
+                       formControlName="date">
+                       <p class="text-danger"
+                        *ngIf="this.formEvent.get('date').hasError('required') && this.formEvent.get('date').touched">
+                        ¡Debe ingresar este campo!
+                      </p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Descripción</label>
+                <textarea class="form-control textarea"
+                          placeholder="Caracteristicas"
+                          formControlName="description"
+                ></textarea>
+                <p class="text-danger"
+                  *ngIf="this.formEvent.get('description').hasError('required') && this.formEvent.get('description').touched">
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Notas</label>
+                <textarea class="form-control textarea"
+                          placeholder="Notas"
+                          formControlName="notes"
+                ></textarea>
+                <p class="text-danger"
+                  *ngIf="this.formEvent.get('notes').hasError('required') && this.formEvent.get('notes').touched">
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="update ml-auto mr-auto">
+              <button type="submit" class="btn btn-primary btn-round" [disabled]="this.formEvent.invalid">Enviar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Registros</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th class="text-center">
+                Nombre
+              </th>
+              <th class="text-center">
+                Fecha
+              </th>
+              <th class="text-center">
+                Descripcion
+              </th>
+              <th class="text-center">
+                Notas
+              </th>
+              <th class="text-center">
+                Acción
+              </th>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let event of eventList
+                    | paginate
+                      : {
+                          id: 'data',
+                          itemsPerPage: items,
+                          currentPage: page,
+                          totalItems: registerNumber
+                        }
+                "
+              >
+                <td  class="text-center">
+                  {{event.title}}
+                </td>
+                <td class="text-center">
+                  {{event.date}}
+                </td>
+                <td class="text-center">
+                  {{event.description}}
+                </td>
+                <td class="text-center">
+                  {{event.notes}}
+                </td>
+                <td class="text-center">
+                  <button type="submit"
+                          class="btn btn-primary btn-link nc-icon nc-ruler-pencil"
+                          (click)="onEditEvent(event)"
+                  ></button>
+                  <button type="submit"
+                          class="btn btn-danger btn-link nc-icon nc-simple-remove"
+                          (click)="onDeleteEvent(event.id)"
+                  ></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+          id="data"
+          (pageChange)="pageChanged($event)"
+          (pageBoundsCorrection)="pageChanged($event)"
+          maxSize="10"
+          directionLinks="true"
+          autoHide="true"
+          responsive="true"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          screenReaderPaginationLabel="Pagination"
+          screenReaderPageLabel="page"
+          screenReaderCurrentLabel="You're on page"
+        >
+        </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>

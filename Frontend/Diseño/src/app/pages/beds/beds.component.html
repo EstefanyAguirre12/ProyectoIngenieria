@@ -1,0 +1,155 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Asignación de Camas</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formBed" (ngSubmit)="onSaveEdit()">
+          <div class="row">
+            <div class="col-md-3 pr-1">
+              <div class="form-group">
+                <label>Número de cama </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="#"
+                  formControlName="bedNumber"
+                />
+                <p
+                  class="text-danger"
+                  *ngIf="
+                    this.formBed.get('bedNumber').hasError('required') &&
+                    this.formBed.get('bedNumber').touched
+                  "
+                >
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+            <div class="col-md-7 pl-1">
+              <div class="form-group">
+                <label>Huesped </label>
+
+                <ng-autocomplete
+                  #auto
+                  class="w-100"
+                  formControlName="tenantId"
+                  [data]="tenatList"
+                  [searchKeyword]="keyword"
+                  placeholder="Seleccion de huesped"
+                  (opened)="openPanel($event)"
+                  (selected)="selectEvent($event)"
+                  (inputChanged)="onChangeSearch($event)"
+                  (inputFocused)="onFocused($event)"
+                  [itemTemplate]="itemTemplate"
+                  [notFoundTemplate]="notFoundTemplate"
+                >
+                </ng-autocomplete>
+
+                <ng-template #itemTemplate let-item>
+                  <a [innerHTML]="item.data"></a>
+                </ng-template>
+
+                <ng-template #notFoundTemplate let-notFound>
+                  <div [innerHTML]="notFound"></div>
+                </ng-template>
+
+                <p
+                  class="text-danger"
+                  *ngIf="
+                    this.formBed.get('tenantId').hasError('required') &&
+                    this.formBed.get('tenantId').touched
+                  "
+                >
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+            <div class="col-md-2 pl-2 mt-4">
+              <div class="update ml-auto mr-auto">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-round"
+                  [disabled]="this.formBed.invalid"
+                >
+                  Enviar
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Registros</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class="text-primary">
+              <th class="text-center">Número de cama</th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th class="text-center">Acción</th>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let bed of bedList
+                    | paginate
+                      : {
+                          id: 'data',
+                          itemsPerPage: items,
+                          currentPage: page,
+                          totalItems: registerNumber
+                        }
+                "
+              >
+                <td class="text-center">#{{ bed.number }}</td>
+                <td class="">
+                  {{ bed.tenantid.firstname }}
+                </td>
+                <td class="">
+                  {{ bed.tenantid.lastname }}
+                </td>
+                <td class="d-flex justify-content-center">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-link nc-icon nc-ruler-pencil"
+                    (click)="onEditBed(bed)"
+                  ></button>
+                  <button
+                    type="submit"
+                    (click)="onDeleteBed(bed.id)"
+                    class="btn btn-danger btn-link nc-icon nc-simple-remove"
+                  ></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+            id="data"
+            (pageChange)="pageChanged($event)"
+            (pageBoundsCorrection)="pageChanged($event)"
+            maxSize="10"
+            directionLinks="true"
+            autoHide="true"
+            responsive="true"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
+          >
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

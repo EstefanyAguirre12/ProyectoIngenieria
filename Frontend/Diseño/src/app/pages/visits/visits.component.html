@@ -1,0 +1,221 @@
+<div class="col-md-12">
+  <div class="card card-user">
+    <div class="card-header">
+      <h5 class="card-title">Registro de visitas/citas</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="formVisit" (submit)="onSaveEdit()">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Nombre visitante </label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nombre"
+                formControlName="visitanteName"
+              />
+              <p
+                class="text-danger"
+                *ngIf="
+                  this.formVisit.get('visitanteName').hasError('required') &&
+                  this.formVisit.get('visitanteName').touched
+                "
+              >
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 pr-1">
+            <div class="form-group">
+              <label>DUI</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="DUI"
+                formControlName="visitanteDui"
+              />
+              <p
+                class="text-danger"
+                *ngIf="
+                  this.formVisit.get('visitanteDui').hasError('required') &&
+                  this.formVisit.get('visitanteDui').touched
+                "
+              >
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4 px-1">
+            <div class="form-group">
+              <label>Fecha</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="Fecha"
+                formControlName="date"
+              />
+              <p
+                class="text-danger"
+                *ngIf="
+                  this.formVisit.get('date').hasError('required') &&
+                  this.formVisit.get('date').touched
+                "
+              >
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4 pl-1">
+            <div class="form-group">
+              <label>Huesped </label>
+              <ng-autocomplete
+                #auto
+                class="w-100"
+                formControlName="tenantId"
+                [data]="tenatList"
+                [searchKeyword]="keyword"
+                placeholder="Seleccion de huesped"
+                (selected)="selectEvent($event)"
+                (inputChanged)="onChangeSearch($event)"
+                (inputFocused)="onFocused($event)"
+                [itemTemplate]="itemTemplate"
+                [notFoundTemplate]="notFoundTemplate"
+              >
+              </ng-autocomplete>
+
+              <ng-template #itemTemplate let-item>
+                <a [innerHTML]="item.data"></a>
+              </ng-template>
+
+              <ng-template #notFoundTemplate let-notFound>
+                <div [innerHTML]="notFound"></div>
+              </ng-template>
+              <p
+                class="text-danger"
+                *ngIf="
+                  this.formVisit.get('tenantId').hasError('required') &&
+                  this.formVisit.get('tenantId').touched
+                "
+              >
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Notas</label>
+              <textarea
+                class="form-control textarea"
+                placeholder=""
+                formControlName="notes"
+              ></textarea>
+              <p
+                class="text-danger"
+                *ngIf="
+                  this.formVisit.get('notes').hasError('required') &&
+                  this.formVisit.get('notes').touched
+                "
+              >
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="update ml-auto mr-auto">
+            <button
+              type="submit"
+              class="btn btn-primary btn-round"
+              [disabled]="this.formVisit.invalid"
+            >
+              Enviar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Visitas</h4>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead class="text-primary">
+            <th class="text-center">DUI</th>
+            <th class="text-center">Nombres</th>
+            <th class="text-center">Fecha</th>
+            <th class="">Huésped</th>
+            <th class="">Notas</th>
+            <th class="text-center">Acción</th>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let visit of visitList
+                  | paginate
+                    : {
+                        id: 'data',
+                        itemsPerPage: items,
+                        currentPage: page,
+                        totalItems: registerNumber
+                      }
+              "
+            >
+              <td class="text-center">{{ visit.dui }}</td>
+              <td class="text-center">{{ visit.name }}</td>
+              <td class="text-center">{{ visit.date | date: "short" }}</td>
+              <td class="">
+                {{
+                  visit.tenantid.dui +
+                    " " +
+                    visit.tenantid.firstname +
+                    " " +
+                    visit.tenantid.lastname +
+                    " " +
+                    visit.tenantid.birthday
+                }}
+              </td>
+              <td class="">{{ visit.note }}</td>
+              <td class="d-flex justify-content-center">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-link nc-icon nc-ruler-pencil"
+                  (click)="onEditVisit(visit)"
+                ></button>
+                <button
+                  type="submit"
+                  (click)="onDeleteVisit(visit.id)"
+                  class="btn btn-danger btn-link nc-icon nc-simple-remove"
+                ></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls
+          id="data"
+          (pageChange)="pageChanged($event)"
+          (pageBoundsCorrection)="pageChanged($event)"
+          maxSize="10"
+          directionLinks="true"
+          autoHide="true"
+          responsive="true"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          screenReaderPaginationLabel="Pagination"
+          screenReaderPageLabel="page"
+          screenReaderCurrentLabel="You're on page"
+        >
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

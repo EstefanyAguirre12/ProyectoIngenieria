@@ -1,0 +1,105 @@
+{
+  "status": "CREATED",
+  "message": "Lista de camas",
+  "code": "CODE_200",
+  "data": [
+      {
+          "id": 1,
+          "number": 1,
+          "tenantid": {
+              "id": 1,
+              "firstname": "firstname 1",
+              "lastname": "lastname 1",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 1",
+              "condition": "confition 1",
+              "status": "status 1"
+          }
+      },
+      {
+          "id": 2,
+          "number": 2,
+          "tenantid": {
+              "id": 2,
+              "firstname": "firstname 2",
+              "lastname": "lastname 2",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 2",
+              "condition": "confition 2",
+              "status": "status 2"
+          }
+      },
+      {
+          "id": 3,
+          "number": 3,
+          "tenantid": {
+              "id": 3,
+              "firstname": "firstname 3",
+              "lastname": "lastname 3",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 3",
+              "condition": "confition 3",
+              "status": "status 3"
+          }
+      },
+      {
+          "id": 4,
+          "number": 3,
+          "tenantid": {
+              "id": 3,
+              "firstname": "firstname 3",
+              "lastname": "lastname 3",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 3",
+              "condition": "confition 3",
+              "status": "status 3"
+          }
+      },
+      {
+          "id": 5,
+          "number": 3,
+          "tenantid": {
+              "id": 4,
+              "firstname": "firstname 4",
+              "lastname": "lastname 4",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 4",
+              "condition": "confition 4",
+              "status": "status 4"
+          }
+      },
+      {
+          "id": 6,
+          "number": 3,
+          "tenantid": {
+              "id": 5,
+              "firstname": "firstname 5",
+              "lastname": "lastname 5",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 5",
+              "condition": "confition 5",
+              "status": "status 5"
+          }
+      },
+      {
+          "id": 7,
+          "number": 3,
+          "tenantid": {
+              "id": 6,
+              "firstname": "firstname 6",
+              "lastname": "lastname 6",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 6",
+              "condition": "confition 6",
+              "status": "status 6"
+          }
+      }
+  ]
+}

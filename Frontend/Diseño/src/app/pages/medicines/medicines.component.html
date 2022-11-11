@@ -1,0 +1,156 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Administración de medicinas</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formMedicine" (ngSubmit)="onSaveEdit()">
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Nombre </label>
+                <input type="text" class="form-control" placeholder="Nombre" formControlName="name">
+                <p class="text-danger"
+                  *ngIf="this.formMedicine.get('name').hasError('required') && this.formMedicine.get('name').touched">
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label>Tipo </label>
+                <select class="form-control" formControlName="type" placeholder="Seleccione una opción">
+                  <option value="" disabled selected hidden>Selecciona una opción</option>
+                  <option selected value="Jarabe">Jarabe</option>
+                  <option value="Capsula">Capsula</option>
+                  <option value="Tabletas">Tabletas</option>
+                  <option value="Comprimidos masticables">Comprimidos masticables</option>
+                  <option value="Inyeccion">Inyeccion</option>
+                  <option value="Gotas">Gotas</option>
+                </select>
+                <p class="text-danger"
+                  *ngIf="this.formMedicine.get('type').hasError('required') && this.formMedicine.get('type').touched">
+                  ¡Debe seleccionar una opción!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Descripción</label>
+                <textarea class="form-control textarea" placeholder="Descripción" formControlName="description"></textarea>
+                <p class="text-danger"
+                  *ngIf="this.formMedicine.get('description').hasError('required') && this.formMedicine.get('description').touched">
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Notas</label>
+                <textarea class="form-control textarea" placeholder="Notas a considerar para la administracion de la medicina" formControlName="notes"></textarea>
+                <p class="text-danger"
+                  *ngIf="this.formMedicine.get('notes').hasError('required') && this.formMedicine.get('notes').touched">
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="update ml-auto mr-auto">
+              <button type="submit" class="btn btn-primary btn-round" [disabled]="this.formMedicine.invalid">Enviar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Registros</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th class="text-center">
+                Nombre
+              </th>
+              <th class="text-center">
+                Tipo
+              </th>
+              <th class="text-center">
+                Descripcion
+              </th>
+              <th class="text-center">
+                Notas
+              </th>
+              <th>
+                Acción
+              </th>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let item of medicineList
+                    | paginate
+                      : {
+                          id: 'data',
+                          itemsPerPage: items,
+                          currentPage: page,
+                          totalItems: registerNumber
+                        }
+                "
+              >
+                <td class="text-center">
+                  {{item.name}}
+                </td>
+                <td class="text-center">
+                  {{item.type}}
+                </td>
+                <td class="text-center">
+                  {{item.description}}
+                </td>
+                <td class="text-center">
+                  {{item.notes}}
+                </td>
+                <td class="text-center">
+                  <button
+                    type="submit"
+                    class="btn btn-primary btn-link nc-icon nc-ruler-pencil"
+                    (click)="onEditMedicine(item)"
+                  ></button>
+                  <button
+                    type="submit"
+                    (click)="onDeleteMedicine(item.id)"
+                    class="btn btn-danger btn-link nc-icon nc-simple-remove"
+                  ></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+            id="data"
+            (pageChange)="pageChanged($event)"
+            (pageBoundsCorrection)="pageChanged($event)"
+            maxSize="10"
+            directionLinks="true"
+            autoHide="true"
+            responsive="true"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
+          >
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>

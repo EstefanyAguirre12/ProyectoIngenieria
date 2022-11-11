@@ -1,0 +1,133 @@
+{
+  "status": "OK",
+  "message": "Message:Unauthorized",
+  "code": "CODE_200",
+  "data": [
+      {
+          "id": 1,
+          "medicineid": {
+              "id": 1,
+              "name": "name 1",
+              "description": "description 1",
+              "type": "type 1",
+              "notes": "notes 1"
+          },
+          "dose": 3,
+          "tenantid": {
+              "id": 1,
+              "firstname": "firstname 1",
+              "lastname": "lastname 1",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 1",
+              "condition": "confition 1",
+              "status": "status 1"
+          }
+      },
+      {
+          "id": 2,
+          "medicineid": {
+              "id": 1,
+              "name": "name 1",
+              "description": "description 1",
+              "type": "type 1",
+              "notes": "notes 1"
+          },
+          "dose": 3,
+          "tenantid": {
+              "id": 2,
+              "firstname": "firstname 2",
+              "lastname": "lastname 2",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 2",
+              "condition": "confition 2",
+              "status": "status 2"
+          }
+      },
+      {
+          "id": 3,
+          "medicineid": {
+              "id": 2,
+              "name": "name 2",
+              "description": "description 2",
+              "type": "type 2",
+              "notes": "notes 2"
+          },
+          "dose": 3,
+          "tenantid": {
+              "id": 3,
+              "firstname": "firstname 3",
+              "lastname": "lastname 3",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 3",
+              "condition": "confition 3",
+              "status": "status 3"
+          }
+      },
+      {
+          "id": 4,
+          "medicineid": {
+              "id": 2,
+              "name": "name 2",
+              "description": "description 2",
+              "type": "type 2",
+              "notes": "notes 2"
+          },
+          "dose": 3,
+          "tenantid": {
+              "id": 3,
+              "firstname": "firstname 3",
+              "lastname": "lastname 3",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 3",
+              "condition": "confition 3",
+              "status": "status 3"
+          }
+      },
+      {
+          "id": 5,
+          "medicineid": {
+              "id": 2,
+              "name": "name 2",
+              "description": "description 2",
+              "type": "type 2",
+              "notes": "notes 2"
+          },
+          "dose": 4,
+          "tenantid": {
+              "id": 2,
+              "firstname": "firstname 2",
+              "lastname": "lastname 2",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 2",
+              "condition": "confition 2",
+              "status": "status 2"
+          }
+      },
+      {
+          "id": 6,
+          "medicineid": {
+              "id": 3,
+              "name": "name 3",
+              "description": "description 3",
+              "type": "type 3",
+              "notes": "notes 3"
+          },
+          "dose": 5,
+          "tenantid": {
+              "id": 3,
+              "firstname": "firstname 3",
+              "lastname": "lastname 3",
+              "birthday": "2022-05-31",
+              "dui": "424234234",
+              "gender": "gender 3",
+              "condition": "confition 3",
+              "status": "status 3"
+          }
+      }
+  ]
+}

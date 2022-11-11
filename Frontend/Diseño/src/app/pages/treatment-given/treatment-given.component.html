@@ -1,0 +1,148 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Tratamientos</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formTreatmentGiven" (ngSubmit)="onSaveEdit()">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" class="form-control" placeholder="Fecha" formControlName="date">
+                <p class="text-danger"
+                  *ngIf="this.formTreatmentGiven.get('date').hasError('required') && this.formTreatmentGiven.get('date').touched">
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <label>Huesped </label>
+                <ng-autocomplete
+                  #auto
+                  class="w-100"
+                  formControlName="treatmentid"
+                  [data]="treatmentList"
+                  [searchKeyword]="keyword"
+                  placeholder="Seleccion de tratamiento"
+                  (selected)="selectEvent($event)"
+                  (inputChanged)="onChangeSearch($event)"
+                  (inputFocused)="onFocused($event)"
+                  [itemTemplate]="itemTemplate"
+                  [notFoundTemplate]="notFoundTemplate"
+                >
+                </ng-autocomplete>
+
+                <ng-template #itemTemplate let-item>
+                  <a [innerHTML]="item.data"></a>
+                </ng-template>
+
+                <ng-template #notFoundTemplate let-notFound>
+                  <div [innerHTML]="notFound"></div>
+                </ng-template>
+                <p class="text-danger"
+                  *ngIf="this.formTreatmentGiven.get('treatmentid').hasError('required') && this.formTreatmentGiven.get('treatmentid').touched">
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="update ml-auto mr-auto">
+
+              <button type="submit" class="btn btn-primary btn-round" [disabled]="this.formTreatmentGiven.invalid">Enviar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Tratamientos dados</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th class="text-center">
+                Fecha
+              </th>
+              <th class="text-center">
+                Medicina
+              </th>
+              <th class="text-center">
+                Dosis
+              </th>
+              <th class="text-center">
+                Nombres huesped
+              </th>
+              <th class="text-center">
+                Apellidos huesped
+              </th>
+              <th>
+                Acción
+              </th>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let item of treatmentGivenList
+                    | paginate
+                      : {
+                          id: 'data',
+                          itemsPerPage: items,
+                          currentPage: page,
+                          totalItems: registerNumber
+                        }
+                "
+              >
+                <td class="text-center">
+                  {{item.date}}
+                </td>
+                <td class="text-center">
+                  {{item.treatmentid.medicineid.name}}
+                </td>
+                <td class="text-center">
+                  {{item.treatmentid.dose}}
+                </td>
+                <td class="text-center">
+                  {{item.treatmentid.tenantid.firstname}}
+                </td>
+                <td class="text-center">
+                  {{item.treatmentid.tenantid.lastname}}
+                </td>
+                <td class="text-center">
+                  <button type="submit" class="btn btn-primary btn-link nc-icon nc-ruler-pencil"
+                  (click)="onEditTreatmentGiven(item)"
+                  ></button>
+                  <button
+                  (click)="onDeleteTreatmentGiven(item.id)"
+                  type="submit" class="btn btn-danger btn-link nc-icon nc-simple-remove"></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+            id="data"
+            (pageChange)="pageChanged($event)"
+            (pageBoundsCorrection)="pageChanged($event)"
+            maxSize="10"
+            directionLinks="true"
+            autoHide="true"
+            responsive="true"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
+          >
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>

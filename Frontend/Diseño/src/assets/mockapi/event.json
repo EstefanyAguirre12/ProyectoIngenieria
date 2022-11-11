@@ -1,0 +1,70 @@
+{
+  "status": "CREATED",
+  "message": "Lista de eventos",
+  "code": "CODE_200",
+  "data": [
+      {
+          "id": 1,
+          "title": "title 1",
+          "description": "description 1",
+          "date": "2022-05-27",
+          "notes": "dsfsdfs"
+      },
+      {
+          "id": 2,
+          "title": "title 2",
+          "description": "description 2",
+          "date": "2022-05-27",
+          "notes": "dsfsdfs"
+      },
+      {
+          "id": 3,
+          "title": "title 3",
+          "description": "description 3",
+          "date": "2022-05-27",
+          "notes": "dsfsdfs"
+      },
+      {
+          "id": 4,
+          "title": "title 4",
+          "description": "description 4",
+          "date": "2022-05-27",
+          "notes": "dsfsdfs"
+      },
+      {
+          "id": 5,
+          "title": "title 5",
+          "description": "description 5",
+          "date": "2022-05-27",
+          "notes": "dsfsdfs"
+      },
+      {
+          "id": 6,
+          "title": "title 6",
+          "description": "description 6",
+          "date": "2022-05-27",
+          "notes": "dsfsdfs"
+      },
+      {
+          "id": 7,
+          "title": "title 7",
+          "description": "description 7",
+          "date": "2022-05-27",
+          "notes": "dsfsdfs"
+      },
+      {
+          "id": 8,
+          "title": "title 8",
+          "description": "description 8",
+          "date": "2022-05-27",
+          "notes": "dsfsdfs"
+      },
+      {
+          "id": 9,
+          "title": "title 9",
+          "description": "description 9",
+          "date": "2022-05-27",
+          "notes": "dsfsdfs"
+      }
+  ]
+}

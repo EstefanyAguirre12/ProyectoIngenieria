@@ -1,0 +1,200 @@
+<div class="col-md-12">
+  <div class="card card-user">
+    <div class="card-header">
+      <h5 class="card-title">Administración de Huéspedes</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="formTenant" (ngSubmit)="onSaveEdit()">
+        <div class="row">
+          <div class="col-md-6 pr-1">
+            <div class="form-group">
+              <label>Nombres </label>
+              <input type="text" class="form-control" placeholder="Nombres" formControlName="firstName">
+              <p class="text-danger"
+                *ngIf="this.formTenant.get('firstName').hasError('required') && this.formTenant.get('firstName').touched">
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6 pl-1">
+            <div class="form-group">
+              <label>Apellidos</label>
+              <input type="text" class="form-control" placeholder="Apellido" formControlName="lastName">
+              <p class="text-danger"
+                *ngIf="this.formTenant.get('lastName').hasError('required') && this.formTenant.get('lastName').touched">
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 pr-1">
+            <div class="form-group">
+              <label>Fecha de nacimiento</label>
+              <input type="date" class="form-control" placeholder="Fecha" formControlName="birthday">
+              <p class="text-danger"
+              *ngIf="this.formTenant.get('birthday').hasError('required') && this.formTenant.get('birthday').touched">
+              ¡Debe ingresar este campo!
+            </p>
+            </div>
+          </div>
+          <div class="col-md-6 pl-1">
+            <div class="form-group">
+              <label>Genero </label>
+              <select class="form-control" formControlName="gender" placeholder="Seleccione una opción">
+                <option value="" disabled selected hidden>Selecciona una opción</option>
+                <option selected value="Femenino">Femenino</option>
+                <option value="Masculino">Masculino</option>
+              </select>
+              <p class="text-danger"
+                  *ngIf="this.formTenant.get('gender').hasError('required') && this.formTenant.get('gender').touched">
+                  ¡Debe seleccionar una opción!
+                </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 pr-1">
+            <div class="form-group">
+              <label>DUI </label>
+              <input type="text" class="form-control" placeholder="DUI" formControlName="dui">
+              <p class="text-danger"
+              *ngIf="this.formTenant.get('dui').hasError('required') && this.formTenant.get('dui').touched">
+              ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+          <div class="col-md-6 pl-1">
+            <div class="form-group">
+              <label>Estatus</label>
+              <input type="text" class="form-control" placeholder="Estatus" formControlName="status">
+              <p class="text-danger"
+                *ngIf="this.formTenant.get('status').hasError('required') && this.formTenant.get('status').touched">
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label>Condición</label>
+              <textarea class="form-control textarea" placeholder="Caracteristicas medicas generales del huésped" formControlName="condition"></textarea>
+              <p class="text-danger"
+                *ngIf="this.formTenant.get('condition').hasError('required') && this.formTenant.get('condition').touched">
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="update ml-auto mr-auto">
+            <button type="submit" class="btn btn-primary btn-round" [disabled]="this.formTenant.invalid">Enviar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Huéspedes registrados</h4>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead class=" text-primary">
+            <th class="text-center">
+              Nombres
+            </th>
+            <th class="text-center">
+              Apellidos
+            </th>
+            <th class="text-center">
+              Fecha de nacimiento
+            </th>
+            <th class="text-center">
+              Genero
+            </th>
+            <th  class="text-center">
+              DUI
+            </th>
+            <th class="text-center">
+              Estatus
+            </th>
+            <th class="text-center">
+              Condicion
+            </th>
+            <th class="text-center">
+              Acción
+            </th>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let item of tenantList
+                  | paginate
+                    : {
+                        id: 'data',
+                        itemsPerPage: items,
+                        currentPage: page,
+                        totalItems: registerNumber
+                      }
+              "
+            >
+              <td class="text-center">
+                {{item.firstname}}
+              </td>
+              <td class="text-center">
+                {{item.lastname}}
+              </td>
+              <td class="text-center">
+                {{item.birthday}}
+              </td>
+              <td class="text-center">
+                {{item.gender}}
+              </td>
+              <td class="text-center">
+                {{item.dui}}
+              </td>
+              <td class="text-center">
+                {{item.status}}
+              </td>
+              <td class="text-center">
+                {{item.condition}}
+              </td>
+              <td class="text-center">
+                <button
+                  type="submit"
+                  (click)="onEditTenant(item)"
+                  class="btn btn-primary btn-link nc-icon nc-ruler-pencil"
+                ></button>
+                <button
+                  type="submit"
+                  (click)="onDeleteTenant(item.id)"
+                  class="btn btn-danger btn-link nc-icon nc-simple-remove"
+                ></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls
+            id="data"
+            (pageChange)="pageChanged($event)"
+            (pageBoundsCorrection)="pageChanged($event)"
+            maxSize="10"
+            directionLinks="true"
+            autoHide="true"
+            responsive="true"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
+          >
+          </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

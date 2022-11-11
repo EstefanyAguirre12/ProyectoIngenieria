@@ -1,0 +1,212 @@
+<div class="col-md-12">
+  <div class="card card-user">
+    <div class="card-header">
+      <h5 class="card-title">Administración de Usuarios</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="formUser" (ngSubmit)="onSaveEdit()">
+        <div class="row">
+          <div class="col-md-4 pr-1">
+            <div class="form-group">
+              <label>Username</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                formControlName="username"
+              />
+              <p
+                class="text-danger"
+                *ngIf="
+                  this.formUser.get('username').hasError('required') &&
+                  this.formUser.get('username').touched
+                "
+              >
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4 pr-1">
+            <div class="form-group">
+              <label>Nombres </label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Nombres"
+                formControlName="firstname"
+              />
+              <p
+                class="text-danger"
+                *ngIf="
+                  this.formUser.get('firstname').hasError('required') &&
+                  this.formUser.get('firstname').touched
+                "
+              >
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4 pl-1">
+            <div class="form-group">
+              <label>Apellidos</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Apellido"
+                formControlName="lastname"
+              />
+              <p
+                class="text-danger"
+                *ngIf="
+                  this.formUser.get('lastname').hasError('required') &&
+                  this.formUser.get('lastname').touched
+                "
+              >
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 pr-1">
+            <div class="form-group">
+              <label>Fecha de nacimiento</label>
+              <input
+                type="date"
+                class="form-control"
+                placeholder="fecha"
+                formControlName="date"
+              />
+              <p
+                class="text-danger"
+                *ngIf="
+                  this.formUser.get('date').hasError('required') &&
+                  this.formUser.get('date').touched
+                "
+              >
+                ¡Debe ingresar este campo!
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4 px-1">
+            <div class="form-group">
+              <label>Genero </label>
+              <div ngbDropdown class="">
+                <a
+                  class="btn btn-outline-primary"
+                  id="dropdownBasic1"
+                  ngbDropdownToggle
+                >
+                  {{ gender == null ? "Seleccionar" : gender.name }}
+                </a>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                  <ng-container *ngFor="let gender of this.genders">
+                    <a (click)="onSetGender(gender)" ngbDropdownItem>{{
+                      gender.name
+                    }}</a>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 pl-1">
+            <div class="form-group">
+              <label>Rol </label>
+              <div ngbDropdown class="">
+                <a
+                  class="btn btn-outline-primary"
+                  id="dropdownBasic2"
+                  ngbDropdownToggle
+                >
+                  {{ rol == null ? "Seleccionar" : rol.name }}
+                </a>
+                <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+                  <ng-container *ngFor="let rol of this.roles">
+                    <a (click)="onSetRol(rol)" ngbDropdownItem>{{
+                      rol.name
+                    }}</a>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="update ml-auto mr-auto">
+            <button
+              type="submit"
+              class="btn btn-primary btn-round"
+              [disabled]="this.formUser.invalid"
+            >
+              Enviar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Registros</h4>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table">
+          <thead class="text-primary">
+            <th class="">Nombres</th>
+            <th class="">Apellidos</th>
+            <th class="">Fecha de nacimiento</th>
+            <th class="">Genero</th>
+            <th class="">Rol</th>
+            <th class="">Usuario</th>
+            <th class="">Acción</th>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let user of usersList
+                  | paginate: { id: 'data', itemsPerPage: items, currentPage: page , totalItems: registerNumber }
+              "
+            >
+              <td class="">{{ user.firstname }}</td>
+              <td class="">{{ user.lastname }}</td>
+              <td class="">{{ user.birthday | date: "short" }}</td>
+              <td class="">{{ user.gender }}</td>
+              <td class="">{{ user.roleid.name }}</td>
+              <td class="">{{ user.username }}</td>
+              <td class="d-flex justify-content-center">
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-link nc-icon nc-ruler-pencil"
+                  (click)="onEditUser(user)"
+                ></button>
+                <button
+                  type="submit"
+                  (click)="onDeleteuser(user.id)"
+                  class="btn btn-danger btn-link nc-icon nc-simple-remove"
+                ></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <pagination-controls
+          id="data"
+          (pageChange)="pageChanged($event)"
+          (pageBoundsCorrection)="pageChanged($event)"
+          maxSize="10"
+          directionLinks="true"
+          autoHide="true"
+          responsive="true"
+          previousLabel="Anterior"
+          nextLabel="Siguiente"
+          screenReaderPaginationLabel="Pagination"
+          screenReaderPageLabel="page"
+          screenReaderCurrentLabel="You're on page"
+        >
+        </pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

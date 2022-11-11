@@ -1,0 +1,22 @@
+{
+  "status": "OK",
+  "message": "Message:Unauthorized",
+  "code": "CODE_200",
+  "data": [
+    {
+      "id": 1,
+      "name": "Admin",
+      "description": "ROLE 1 description"
+    },
+    {
+      "id": 2,
+      "name": "Employed",
+      "description": "ROLE 2 description"
+    },
+    {
+      "id": 3,
+      "name": "Guest",
+      "description": "ROLE 3 description"
+    }
+  ]
+}

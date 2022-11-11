@@ -1,0 +1,189 @@
+  <div class="col-md-12">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Tratamientos médicos</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formTreatment" (ngSubmit)="onSaveEdit()">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Huesped </label>
+                <ng-autocomplete
+                  #auto
+                  class="w-100"
+                  formControlName="tenantId"
+                  [data]="tenatList"
+                  [searchKeyword]="keyword"
+                  placeholder="Seleccion de huesped"
+                  (selected)="selectEvent($event)"
+                  (inputChanged)="onChangeSearch($event)"
+                  (inputFocused)="onFocused($event)"
+                  [itemTemplate]="itemTemplate"
+                  [notFoundTemplate]="notFoundTemplate"
+                >
+                </ng-autocomplete>
+
+                <ng-template #itemTemplate let-item>
+                  <a [innerHTML]="item.data"></a>
+                </ng-template>
+
+                <ng-template #notFoundTemplate let-notFound>
+                  <div [innerHTML]="notFound"></div>
+                </ng-template>
+                <p class="text-danger"
+                  *ngIf="this.formTreatment.get('tenantId').hasError('required') && this.formTreatment.get('tenantId').touched">
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Medicina </label>
+                <ng-autocomplete
+                  #auto2
+                  class="w-100"
+                  formControlName="medicineId"
+                  [data]="medicineList"
+                  [searchKeyword]="keyword"
+                  placeholder="Seleccion de medicina"
+                  (selected)="selectEvent($event)"
+                  (inputChanged)="onChangeSearch($event)"
+                  (inputFocused)="onFocused($event)"
+                  [itemTemplate]="itemTemplate"
+                  [notFoundTemplate]="notFoundTemplate"
+                >
+                </ng-autocomplete>
+
+                <ng-template #itemTemplate let-item>
+                  <a [innerHTML]="item.data"></a>
+                </ng-template>
+
+                <ng-template #notFoundTemplate let-notFound>
+                  <div [innerHTML]="notFound"></div>
+                </ng-template>
+                <p class="text-danger"
+                  *ngIf="this.formTreatment.get('medicineId').hasError('required') && this.formTreatment.get('medicineId').touched">
+                  ¡Debe ingresar este campo!
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Dosis </label>
+                <input type="number"
+                  class="form-control"
+                  placeholder="dosis"
+                  formControlName="dose">
+                  <p class="text-danger"
+                    *ngIf="this.formTreatment.get('dose').hasError('required') && this.formTreatment.get('dose').touched">
+                    ¡Debe ingresar este campo!
+                  </p>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="update ml-auto mr-auto">
+              <button type="submit" class="btn btn-primary btn-round" [disabled]="this.formTreatment.invalid">Enviar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Registros</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th class="text-center">
+                Nombres
+              </th>
+              <th class="text-center">
+                Apellidos
+              </th>
+              <th class="text-center">
+                DUI
+              </th>
+              <th class="text-center">
+                Medicamento
+              </th>
+              <th class="text-center">
+                Tipo
+              </th>
+              <th class="text-center">
+                Dosis
+              </th>
+              <th class="text-center">
+                Acción
+              </th>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let treatment of treatmentList
+                    | paginate
+                      : {
+                          id: 'data',
+                          itemsPerPage: items,
+                          currentPage: page,
+                          totalItems: registerNumber
+                        }
+                "
+              >
+                <td class="text-center">
+                  {{treatment.tenantid.firstname}}
+                </td>
+                <td class="text-center">
+                  {{treatment.tenantid.lastname}}
+                </td>
+                <td class="text-center">
+                  {{treatment.tenantid.dui}}
+                </td>
+                <td  class="text-center">
+                  {{treatment.medicineid.name}}
+                </td>
+                <td class="text-center">
+                  {{treatment.medicineid.type}}
+                </td>
+                <td  class="text-center">
+                  {{treatment.dose}}
+                </td>
+                <td class="text-center">
+                  <button type="submit"
+                   class="btn btn-primary btn-link nc-icon nc-ruler-pencil"
+                   (click)="onEditTreatment(treatment)"
+                   ></button>
+                  <button type="submit"
+                   class="btn btn-danger btn-link nc-icon nc-simple-remove"
+                   (click)="onDeleteTreatment(treatment.id)"
+                   ></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <pagination-controls
+            id="data"
+            (pageChange)="pageChanged($event)"
+            (pageBoundsCorrection)="pageChanged($event)"
+            maxSize="10"
+            directionLinks="true"
+            autoHide="true"
+            responsive="true"
+            previousLabel="Anterior"
+            nextLabel="Siguiente"
+            screenReaderPaginationLabel="Pagination"
+            screenReaderPageLabel="page"
+            screenReaderCurrentLabel="You're on page"
+          >
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
