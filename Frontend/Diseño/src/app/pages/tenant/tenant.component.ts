@@ -2,6 +2,7 @@ import { TenantService } from './../../core/services/tenant.service';
 import { Tenant, CreateTenant } from './../../core/interfaces/tenant';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment'; 
 
 @Component({
   selector: 'app-tenant',
@@ -36,8 +37,8 @@ export class TenantComponent implements OnInit {
     this._tenantService
     .getTenants(((this.page - 1) * this.items).toString(), this.items.toString())
     .subscribe((response) => {
-      this.registerNumber = response.registers; ///////// importatne para paginacion
-      this.tenantList = response.data;
+      this.registerNumber = response.totalItems; ///////// importatne para paginacion
+      this.tenantList = response.items;
     });
   }
   onSaveEdit(): void {
@@ -63,11 +64,6 @@ export class TenantComponent implements OnInit {
       .createTenant(tenantTemp)
       .subscribe((response) => {
         this.onLoadRegisters();
-        this._tenantService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
       this.formTenant.reset();
     } else {
@@ -91,11 +87,7 @@ export class TenantComponent implements OnInit {
       .updateTenant(tenantTemp)
       .subscribe((response) => {
         this.onLoadRegisters();
-        this._tenantService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );      });
+        });
       this.editTenant= null;
       this.formTenant.reset();
     } else {
@@ -117,14 +109,7 @@ export class TenantComponent implements OnInit {
 
   onDeleteTenant(id: Number): void {
     this._tenantService.deleteTenant(id).subscribe((response) => {
-      if (response.code === 202) {
-        this.onLoadRegisters();
-      }
-      this._tenantService.showInfo(
-        response.status,
-        response.code,
-        response.message
-      );
+      this.onLoadRegisters();
     });
   }
   pageChanged(data: any) {

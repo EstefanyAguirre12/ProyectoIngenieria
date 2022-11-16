@@ -13,14 +13,14 @@ import { environment } from 'environments/environment';
 })
 export class TenantService {
   private readonly _URL = environment.api;
-  private readonly _TENANTS = "tenant";
+  private readonly _TENANTS = "tenant/records";
 
   constructor(private _http: HttpClient, private _toastr: ToastrService) { }
 
   getTenants(page: string = "0", size: string = "100"): Observable<TenantResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._TENANTS}`;
     return this._http.get<TenantResponse>(this._URL + this._TENANTS,{params}).pipe(
       take(1),
