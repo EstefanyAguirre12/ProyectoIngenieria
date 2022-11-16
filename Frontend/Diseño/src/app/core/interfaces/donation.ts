@@ -7,7 +7,7 @@ export interface Donation {
   id: number;
   name: string;
   type: string;
-  amout: number;
+  amount: number;
   date: string;
   notes: string;
 }
@@ -15,7 +15,7 @@ export interface Donation {
 export interface CreateDonation {
   name: string;
   type: string;
-  amout: number;
+  amount: number;
   date: string;
   notes: string;
 }

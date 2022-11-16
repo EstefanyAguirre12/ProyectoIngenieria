@@ -2,6 +2,7 @@ import { DonationService } from './../../core/services/donation.service';
 import { CreateDonation, Donation } from './../../core/interfaces/donation';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-donations',
@@ -20,7 +21,7 @@ export class DonationsComponent implements OnInit {
   public formDonation: FormGroup = new FormGroup({
     name: new FormControl(null, [Validators.required]),
     type: new FormControl("", [Validators.required]),
-    amout: new FormControl(null, [Validators.required]),
+    amount: new FormControl(null, [Validators.required]),
     date: new FormControl(null, [Validators.required]),
     notes: new FormControl(null, [Validators.required]),
   });
@@ -33,14 +34,13 @@ export class DonationsComponent implements OnInit {
 
   onLoadRegisters(): void {
     this._donationServie.getDonations().subscribe((response) => {
-      this.donationList = response.data;
-      console.log(response);
+      this.donationList = response.items;
     });
     this._donationServie
     .getDonations(((this.page - 1) * this.items).toString(), this.items.toString())
     .subscribe((response) => {
-      this.registerNumber = response.registers; ///////// importatne para paginacion
-      this.donationList = response.data;
+      this.registerNumber = response.totalItems; ///////// importatne para paginacion
+      this.donationList = response.items;
     });
   }
   onSaveEdit(): void {
@@ -56,7 +56,7 @@ export class DonationsComponent implements OnInit {
       let donationTemp: CreateDonation = {
         name: this.formDonation.getRawValue().name,
         type: this.formDonation.getRawValue().type,
-        amout: this.formDonation.getRawValue().amout,
+        amount: this.formDonation.getRawValue().amount,
         date: this.formDonation.getRawValue().date,
         notes: this.formDonation.getRawValue().notes
       };
@@ -64,11 +64,6 @@ export class DonationsComponent implements OnInit {
       .createDonation(donationTemp)
       .subscribe((response) => {
         this.onLoadRegisters();
-        this._donationServie.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
       this.formDonation.reset();
     } else {
@@ -82,17 +77,12 @@ export class DonationsComponent implements OnInit {
         id: this.donationEdit.id,
         name: this.formDonation.getRawValue().name,
         type: this.formDonation.getRawValue().type,
-        amout: this.formDonation.getRawValue().amout,
+        amount: this.formDonation.getRawValue().amount,
         date: this.formDonation.getRawValue().date,
         notes: this.formDonation.getRawValue().notes
       };
       this._donationServie.updateDonation(donationTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._donationServie.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
       this.formDonation.reset();
       this.donationEdit = null;
@@ -104,21 +94,14 @@ export class DonationsComponent implements OnInit {
   onEditDonation(donation: Donation): void {
     this.formDonation.controls.name.setValue(donation.name);
     this.formDonation.controls.type.setValue(donation.type);
-    this.formDonation.controls.amout.setValue(donation.amout);
-    this.formDonation.controls.date.setValue(donation.date);
+    this.formDonation.controls.amount.setValue(donation.amount);
+    this.formDonation.controls.date.setValue(moment(donation.date).format("YYYY-MM-DD"));
     this.formDonation.controls.notes.setValue(donation.notes);
     this.donationEdit = donation;
   }
   onDeleteDonation(id: number): void {
     this._donationServie.deleteDonation(id).subscribe((response) => {
-      if (response.code === 202) {
-        this.onLoadRegisters();
-      }
-      this._donationServie.showInfo(
-        response.status,
-        response.code,
-        response.message
-      );
+      this.onLoadRegisters();
     });
   }
   pageChanged(data: any) {

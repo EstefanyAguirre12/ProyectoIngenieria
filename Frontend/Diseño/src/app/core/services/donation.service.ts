@@ -12,13 +12,13 @@ import { CreateDonation, Donation, DonationResponse } from '../interfaces/donati
 })
 export class DonationService {
   private readonly _URL = environment.api;
-  private readonly _DONATIONS = "donation";
+  private readonly _DONATIONS = "donation/records";
   constructor(private _http: HttpClient, private _toastr: ToastrService) { }
 
   getDonations(page: string = "0", size: string = "100"): Observable<DonationResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._DONATIONS}`;
     return this._http.get<DonationResponse>(this._URL + this._DONATIONS,{params}).pipe(
       take(1),

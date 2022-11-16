@@ -31,9 +31,9 @@
           <div class="col-md-6 pr-1">
             <div class="form-group">
               <label>Monto</label>
-              <input type="text" class="form-control" placeholder="$" formControlName="amout">
+              <input type="text" class="form-control" placeholder="$" formControlName="amount">
               <p class="text-danger"
-                *ngIf="this.formDonation.get('amout').hasError('required') && this.formDonation.get('amout').touched">
+                *ngIf="this.formDonation.get('amount').hasError('required') && this.formDonation.get('amount').touched">
                 ¡Debe ingresar este campo!
               </p>
             </div>
@@ -125,7 +125,7 @@
                 {{item.date}}
               </td>
               <td class="text-center">
-                {{item.amout}}
+                {{item.amount}}
               </td>
               <td class="text-center">
                 {{item.type}}
