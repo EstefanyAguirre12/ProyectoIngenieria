@@ -16,15 +16,15 @@ import { ActionResponse } from "../interfaces/common";
 })
 export class BedService {
   private readonly _URL = environment.api;
-  private readonly _BEDS = "bed";
-  private readonly _TENANTS = "tenant";
+  private readonly _BEDS = "bed/records";
+  private readonly _TENANTS = "tenant/records";
 
   constructor(private _http: HttpClient, private _toastr: ToastrService) {}
 
   getBeds(page: string = "0", size: string = "100"): Observable<BedResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._BEDS}`;
     return this._http.get<BedResponse>(this._URL + this._BEDS, { params }).pipe(
       take(1),
@@ -44,7 +44,7 @@ export class BedService {
   ): Observable<TenantResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._TENANTS}`;
     return this._http.get<TenantResponse>(url,{params}).pipe(
       take(1),

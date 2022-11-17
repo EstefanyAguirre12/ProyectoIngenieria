@@ -113,10 +113,24 @@
               >
                 <td class="text-center">#{{ bed.number }}</td>
                 <td class="">
-                  {{ bed.tenantid.firstname }}
+                  <ng-container *ngFor="let a of tenatList; let i = index">
+                    {{
+                      tenatList[i].id == bed.tenantid
+                        ? tenatList[i].firstname
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="">
-                  {{ bed.tenantid.lastname }}
+                  <ng-container *ngFor="let a of tenatList; let i = index">
+                    {{
+                      tenatList[i].id == bed.tenantid
+                        ? tenatList[i].lastname
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="d-flex justify-content-center">
                   <button

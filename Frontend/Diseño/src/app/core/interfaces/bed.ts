@@ -29,7 +29,7 @@ export interface Tenant {
 export interface UpdateBed {
   id: number;
   number: number;
-  tenantidId: number;
+  tenantid: number;
 }
 
 export interface CreateBed {

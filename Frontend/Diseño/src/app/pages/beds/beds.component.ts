@@ -41,8 +41,9 @@ export class BedsComponent implements OnInit {
     this._bedService
       .getBeds(((this.page - 1) * this.items).toString(), this.items.toString())
       .subscribe((response) => {
-        this.registerNumber = response.registers; ///////// importatne para paginacion
-        this.bedList = response.data;
+        this.registerNumber = response.totalItems; ///////// importatne para paginacion
+        this.bedList = response.items;
+        console.log(this.bedList);
       });
   }
 
@@ -59,15 +60,10 @@ export class BedsComponent implements OnInit {
       let bedTemp: UpdateBed = {
         id: null,
         number: this.formBed.getRawValue().bedNumber,
-        tenantidId: this.formBed.getRawValue().tenantId.id,
+        tenantid: this.formBed.getRawValue().tenantId.id,
       };
       this._bedService.createBed(bedTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._bedService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
       this.formBed.reset();
     } else {
@@ -84,17 +80,12 @@ export class BedsComponent implements OnInit {
       let bedTemp: UpdateBed = {
         id: this.editBed.id,
         number: this.formBed.getRawValue().bedNumber,
-        tenantidId: this.formBed.getRawValue().tenantId.id,
+        tenantid: this.formBed.getRawValue().tenantId.id,
       };
       this.editBed = null;
       this.formBed.reset();
       this._bedService.updateBed(bedTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._bedService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
     } else {
     }
@@ -103,29 +94,23 @@ export class BedsComponent implements OnInit {
   onDeleteBed(id: Number): void {
     //this.bedList = this.bedList.filter((bed) => !(bed.id == id));
     this._bedService.deleteBed(id).subscribe((response) => {
-      if (response.code === 202) {
-        this.onLoadRegisters();
-      }
-      this._bedService.showInfo(
-        response.status,
-        response.code,
-        response.message
-      );
+      this.onLoadRegisters();
     });
   }
 
   onEditBed(bed: Bed): void {
-    bed.tenantid.data = `${bed.tenantid.dui} ${bed.tenantid.firstname} ${
-      bed.tenantid.lastname
-    } ${moment(bed.tenantid.birthday).format("DD/MM/YYYY")}`;
+    let tenantTemp = this.tenatList.find((tenant) => tenant.id == bed.tenantid);
+    let tenantData = `${tenantTemp.dui} ${tenantTemp.firstname} ${
+      tenantTemp.lastname
+    } ${moment(tenantTemp.birthday).format("DD/MM/YYYY")}`;
     this.formBed.controls.bedNumber.setValue(bed.number);
-    this.formBed.controls.tenantId.setValue(bed.tenantid.data);
+    this.formBed.controls.tenantId.setValue(tenantData);
     this.editBed = bed;
   }
 
   onLoadTenants(): void {
     this._bedService.getTenantsFree().subscribe((response) => {
-      this.tenatList = response.data;
+      this.tenatList = response.items;
       this.tenatList.map((tenant) => {
         tenant.data = `${tenant.dui} ${tenant.firstname} ${
           tenant.lastname
