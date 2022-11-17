@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       .onAutenticateCredentials(this.loginForm.getRawValue())
       .subscribe((Response) => {
         console.log(Response);
-        this._authService.onSetToken(Response.data.token);
+        this._authService.onSetToken(Response.token);
         this.router.navigate(["/dashboard"]);
       });
   }

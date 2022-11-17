@@ -11,14 +11,18 @@ import { environment } from "environments/environment";
   providedIn: "root",
 })
 export class AuthService {
-  private readonly _URL = "auth";
+  private readonly _URL = "users/auth-via-email";
   private readonly _USERS = "users.json";
 
   constructor(private _http: HttpClient, private _toastr: ToastrService) {}
 
   onAutenticateCredentials(credentials: AuthLogin): Observable<AuthResponse> {
+    let cred:any = {
+      email: credentials.username,
+      password: credentials.password
+    }
     return this._http
-      .post<AuthResponse>(environment.api + this._URL, credentials)
+      .post<AuthResponse>("https://retirement-robin.vicquemare.repl.co/api/" + this._URL, cred)
       .pipe(
         take(1),
         catchError((error) => {
