@@ -11,16 +11,16 @@ import { ActionResponse } from '../interfaces/common';
 @Injectable({
   providedIn: 'root'
 })
+
 export class MedicineService {
   private readonly _URL = environment.api;
-  private readonly _MEDICINES = "medicine";
-
+  private readonly _MEDICINES = "medicine/records";
   constructor(private _http: HttpClient, private _toastr: ToastrService) { }
 
   getMedicines(page: string = "0", size: string = "100"): Observable<MedicineResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._MEDICINES}`;
     return this._http.get<MedicineResponse>(this._URL + this._MEDICINES,{params}).pipe(
       take(1),

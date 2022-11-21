@@ -29,12 +29,17 @@ export class MedicinesComponent implements OnInit {
   ngOnInit(): void {
     this.onLoadRegisters();
   }
+
   onLoadRegisters(): void {
+    this._medicineService.getMedicines().subscribe((response) => {
+      this.medicineList = response.items;
+      console.log(this.medicineList);
+    });
     this._medicineService
     .getMedicines(((this.page - 1) * this.items).toString(), this.items.toString())
     .subscribe((response) => {
-      this.registerNumber = response.registers; ///////// importatne para paginacion
-      this.medicineList = response.data;
+      this.registerNumber = response.totalItems; ///////// importatne para paginacion
+      this.medicineList = response.items;
     });
   }
 
@@ -81,11 +86,7 @@ export class MedicinesComponent implements OnInit {
       };
       this._medicineService.updateMedicine(medicineTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._medicineService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );      });
+      });
       this.formMedicine.reset();
       this.editMedicine = null;
     } else {
@@ -104,17 +105,10 @@ export class MedicinesComponent implements OnInit {
 
   onDeleteMedicine(id: number): void {
     this._medicineService.deleteMedicine(id).subscribe((response) => {
-      if (response.code === 202) {
-        this.onLoadRegisters();
-      }
-      this._medicineService.showInfo(
-        response.status,
-        response.code,
-        response.message
-      );
+      this.onLoadRegisters();
     });
-
-    }
+  }
+  pag
     pageChanged(data: any) {
       this.page = data;
       this.onLoadRegisters();
