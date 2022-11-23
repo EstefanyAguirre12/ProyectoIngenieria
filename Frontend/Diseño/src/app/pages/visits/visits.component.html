@@ -174,7 +174,33 @@
               <td class="text-center">{{ visit.name }}</td>
               <td class="text-center">{{ visit.date | date: "short" }}</td>
               <td class="">
-                {{
+                <ng-container *ngFor="let a of tenatList; let i = index">
+                  {{
+                    tenatList[i].id == visit.tenantid
+                      ? tenatList[i].firstname
+                      : ""
+                  }}
+                  {{
+                    tenatList[i].id == visit.tenantid
+                      ? tenatList[i].lastname
+                      : ""
+                  }}
+                  {{
+                    tenatList[i].id == visit.tenantid
+                      ? tenatList[i].dui
+                      : ""
+                  }}
+                  <br />
+                </ng-container>
+                <!-- <ng-container *ngFor="let a of tenatList; let i = index">
+                  {{
+                    tenatList[i].id == visit.tenantid
+                      ? tenatList[i].lastname
+                      : ""
+                  }}
+                  <br />
+                </ng-container> -->
+                <!-- {{
                   visit.tenantid.dui +
                     " " +
                     visit.tenantid.firstname +
@@ -182,7 +208,7 @@
                     visit.tenantid.lastname +
                     " " +
                     visit.tenantid.birthday
-                }}
+                }} -->
               </td>
               <td class="">{{ visit.note }}</td>
               <td class="d-flex justify-content-center">

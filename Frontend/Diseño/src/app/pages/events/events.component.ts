@@ -37,8 +37,8 @@ export class EventsComponent implements OnInit {
     this._eventService
       .getEvents(((this.page - 1) * this.items).toString(), this.items.toString())
       .subscribe((response) => {
-        this.registerNumber = response.registers;
-        this.eventList = response.data;
+        this.registerNumber = response.totalItems;
+        this.eventList = response.items;
       });
   }
 
@@ -61,11 +61,6 @@ export class EventsComponent implements OnInit {
       };
       this._eventService.createEvent(eventTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._eventService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
       this.formEvent.reset();
     } else {
@@ -85,11 +80,6 @@ export class EventsComponent implements OnInit {
       this.formEvent.reset();
       this._eventService.updateEvent(eventTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._eventService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
     } else {
     }
@@ -97,14 +87,7 @@ export class EventsComponent implements OnInit {
 
   onDeleteEvent(id: Number): void {
     this._eventService.deleteEvent(id).subscribe((response) => {
-      if (response.code === 202) {
-        this.onLoadRegisters();
-      }
-      this._eventService.showInfo(
-        response.status,
-        response.code,
-        response.message
-      );
+      this.onLoadRegisters();
     });
   }
 

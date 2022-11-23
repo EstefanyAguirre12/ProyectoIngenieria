@@ -40,11 +40,12 @@ export class VisitsComponent implements OnInit {
   }
 
   onLoadRegisters(): void {
-    this._visitService.getVisits( ((this.page - 1) * this.items).toString(),
-    this.items.toString()).subscribe((response) => {
-      this.registerNumber = response.registers; ///////// importatne para paginacion
-      this.visitList = response.data;
-
+    this._visitService
+      .getVisits( ((this.page - 1) * this.items).toString(),
+      this.items.toString()).subscribe((response) => {
+        this.registerNumber = response.totalItems; ///////// importatne para paginacion
+        this.visitList = response.items;
+        console.log(this.visitList);
     });
   }
 
@@ -63,7 +64,7 @@ export class VisitsComponent implements OnInit {
       let visitTemp: PayloadVisit = {
         id: null,
         name: visitanteName,
-        tenantidId: tenantId.id,
+        tenantid: tenantId.id,
         dui: visitanteDui,
         date: moment(date).format("YYYY-MM-DD"),
         note: notes,
@@ -71,11 +72,6 @@ export class VisitsComponent implements OnInit {
       //this.visitList.push(visitTemp);
       this._visitService.createVisit(visitTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._visitService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
       this.formVisit.reset();
     } else {
@@ -94,7 +90,7 @@ export class VisitsComponent implements OnInit {
       let visitTemp: PayloadVisit = {
         id: this.editVisit.id,
         name: visitanteName,
-        tenantidId: tenantId.id,
+        tenantid: tenantId.id,
         dui: visitanteDui,
         date: moment(date).format("YYYY-MM-DD"),
         note: notes,
@@ -103,24 +99,20 @@ export class VisitsComponent implements OnInit {
       this.formVisit.reset();
       this._visitService.updateVisit(visitTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._visitService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
     } else {
     }
   }
 
   onEditVisit(visit: Visit): void {
-    visit.tenantid.data = `${visit.tenantid.dui} ${visit.tenantid.firstname} ${
-      visit.tenantid.lastname
-    } ${moment(visit.tenantid.birthday).format("DD/MM/YYYY")}`;
+    let tenantTemp = this.tenatList.find((tenant) => tenant.id == visit.tenantid);
+    let tenantData = `${tenantTemp.dui} ${tenantTemp.firstname} ${
+      tenantTemp.lastname
+    } ${moment(tenantTemp.birthday).format("DD/MM/YYYY")}`;
     this.formVisit.controls.visitanteName.setValue(visit.name);
     this.formVisit.controls.visitanteDui.setValue(visit.dui);
     this.formVisit.controls.date.setValue(visit.date);
-    this.formVisit.controls.tenantId.setValue(visit.tenantid);
+    this.formVisit.controls.tenantId.setValue(tenantData);
     this.formVisit.controls.notes.setValue(visit.note);
     this.editVisit = visit;
   }
@@ -128,20 +120,13 @@ export class VisitsComponent implements OnInit {
   onDeleteVisit(id: Number): void {
     //this.visitList = this.visitList.filter((visit) => !(visit.id == id));
     this._visitService.deleteVisit(id).subscribe((response) => {
-      if (response.code === 202) {
-        this.onLoadRegisters();
-      }
-      this._visitService.showInfo(
-        response.status,
-        response.code,
-        response.message
-      );
+      this.onLoadRegisters();
     });
   }
 
   onLoadTenants(): void {
     this._visitService.getTenantsFree().subscribe((response) => {
-      this.tenatList = response.data;
+      this.tenatList = response.items;
       this.tenatList.map((tenant) => {
         tenant.data = `${tenant.dui} ${tenant.firstname} ${
           tenant.lastname

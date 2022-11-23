@@ -21,8 +21,8 @@ import {
 })
 export class VisitsService {
   private readonly _URL = environment.api;
-  private readonly _VISITS = "visit";
-  private readonly _TENANTS = "tenant";
+  private readonly _VISITS = "visit/records";
+  private readonly _TENANTS = "tenant/records";
 
   constructor(private _http: HttpClient, private _toastr: ToastrService) {}
 
@@ -32,7 +32,7 @@ export class VisitsService {
   ): Observable<VisitsResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._VISITS}`;
     return this._http
       .get<VisitsResponse>(this._URL + this._VISITS, { params })
@@ -54,7 +54,7 @@ export class VisitsService {
   ): Observable<TenantResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._TENANTS}`;
     return this._http.get<TenantResponse>(url,{params}).pipe(
       take(1),
