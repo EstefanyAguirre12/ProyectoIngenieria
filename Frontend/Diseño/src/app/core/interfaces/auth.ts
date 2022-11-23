@@ -11,7 +11,7 @@ export interface AuthRegister {
 }
 
 export interface AuthResponse extends API_RESPONSE {
-  data: {
-    token: string | null;
-  };
+  token: string;
+  user: {
+  }
 }

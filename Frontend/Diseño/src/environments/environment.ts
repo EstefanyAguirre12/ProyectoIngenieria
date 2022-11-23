@@ -6,4 +6,5 @@
 export const environment = {
   production: false,
   api: "https://retirement-robin.vicquemare.repl.co/api/collections/",
+  apiAdmin: "https://retirement-robin.vicquemare.repl.co/api/",
 };
