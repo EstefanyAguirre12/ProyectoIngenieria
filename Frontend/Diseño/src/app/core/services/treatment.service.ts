@@ -22,9 +22,9 @@ import { ActionResponse } from "../interfaces/common";
 })
 export class TreatmentService {
   private readonly _URL = environment.api;
-  private readonly _TREATMENTS = "treatment";
-  private readonly _MEDICINES = "medicine";
-  private readonly _TENANTS = "tenant";
+  private readonly _TREATMENTS = "treatment/records";
+  private readonly _MEDICINES = "medicine/records";
+  private readonly _TENANTS = "tenant/records";
 
   constructor(private _http: HttpClient, private _toastr: ToastrService) {}
 
@@ -34,7 +34,7 @@ export class TreatmentService {
   ): Observable<TreatmentResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._TREATMENTS}`;
     return this._http
       .get<TreatmentResponse>(this._URL + this._TREATMENTS, { params })
@@ -56,7 +56,7 @@ export class TreatmentService {
   ): Observable<TenantResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._TENANTS}`;
     return this._http.get<TenantResponse>(url, { params }).pipe(
       take(1),
@@ -76,7 +76,7 @@ export class TreatmentService {
   ): Observable<MedicineResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._MEDICINES}`;
     return this._http.get<MedicineResponse>(url, { params }).pipe(
       take(1),

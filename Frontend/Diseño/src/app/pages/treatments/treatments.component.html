@@ -138,19 +138,54 @@
                 "
               >
                 <td class="text-center">
-                  {{treatment.tenantid.firstname}}
+                  <ng-container *ngFor="let a of tenatList; let i = index">
+                    {{
+                      tenatList[i].id == treatment.tenantid
+                        ? tenatList[i].firstname
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="text-center">
-                  {{treatment.tenantid.lastname}}
+                  <ng-container *ngFor="let a of tenatList; let i = index">
+                    {{
+                      tenatList[i].id == treatment.tenantid
+                        ? tenatList[i].lastname
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="text-center">
-                  {{treatment.tenantid.dui}}
+                  <ng-container *ngFor="let a of tenatList; let i = index">
+                    {{
+                      tenatList[i].id == treatment.tenantid
+                        ? tenatList[i].dui
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td  class="text-center">
-                  {{treatment.medicineid.name}}
+                  <ng-container *ngFor="let a of medicineList; let i = index">
+                    {{
+                      medicineList[i].id == treatment.medicineid
+                        ? medicineList[i].name
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="text-center">
-                  {{treatment.medicineid.type}}
+                  <ng-container *ngFor="let a of medicineList; let i = index">
+                    {{
+                      medicineList[i].id == treatment.medicineid
+                        ? medicineList[i].type
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td  class="text-center">
                   {{treatment.dose}}

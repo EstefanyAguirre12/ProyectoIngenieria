@@ -105,16 +105,45 @@
                   {{item.date}}
                 </td>
                 <td class="text-center">
-                  {{item.treatmentid.medicineid.name}}
+                  <ng-container *ngFor="let a of treatmentList; let i = index">
+                    {{
+                      treatmentList[i].id == item.treatmentid
+                        ? treatmentList[i].medicineid.name
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="text-center">
-                  {{item.treatmentid.dose}}
+                  <ng-container *ngFor="let a of treatmentList; let i = index">
+                    {{
+                      treatmentList[i].id == item.treatmentid
+                        ? treatmentList[i].dose
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="text-center">
-                  {{item.treatmentid.tenantid.firstname}}
+                  <ng-container *ngFor="let a of treatmentList; let i = index">
+                    {{
+                      treatmentList[i].id == item.treatmentid
+                        ? treatmentList[i].tenantid.firstname
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="text-center">
                   {{item.treatmentid.tenantid.lastname}}
+                  <ng-container *ngFor="let a of treatmentList; let i = index">
+                    {{
+                      treatmentList[i].id == item.treatmentid
+                        ? treatmentList[i].tenantid.lastname
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="text-center">
                   <button type="submit" class="btn btn-primary btn-link nc-icon nc-ruler-pencil"

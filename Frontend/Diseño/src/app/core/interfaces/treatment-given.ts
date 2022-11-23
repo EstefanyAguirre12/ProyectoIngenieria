@@ -1,15 +1,16 @@
 import { API_RESPONSE } from "./common";
 
 export interface TreatmentGivenResponse extends API_RESPONSE {
-  data: TreatmentGiven[];
+  items: TreatmentGiven[];
+  totalItems: number;
 }
 export interface TreatmentResponse extends API_RESPONSE {
-  data: Treatmentid[];
+  items: Treatmentid[];
 }
 export interface TreatmentGiven {
   id: number;
   date: string;
-  treatmentid: Treatmentid;
+  treatmentid: number;
 }
 export interface Treatmentid {
   id: number;
@@ -43,5 +44,5 @@ export interface CreateTreatmentGiven {
 export interface UpdateTreatmentGiven {
   id: number;
   date: string;
-  treatmentidId: number;
+  treatmentid: number;
 }

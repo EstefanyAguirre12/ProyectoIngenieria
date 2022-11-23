@@ -1,21 +1,25 @@
 import { API_RESPONSE } from "./common";
 
 export interface TreatmentResponse extends API_RESPONSE {
+  items: Treatment[];
+  totalItems: number;
   data: Treatment[];
 }
 
 export interface TenantResponse extends API_RESPONSE {
+  items: Tenant[];
   data: Tenant[];
 }
 
 export interface MedicineResponse extends API_RESPONSE {
+  items: Medicine[];
   data: Medicine[];
 }
 
 export interface Treatment {
   id: number | null;
-  medicineid: Medicine;
-  tenantid: Tenant;
+  medicineid: number;
+  tenantid: number;
   dose: number;
   // period: string;
 }
@@ -43,8 +47,8 @@ export interface Medicine {
 
 export interface UpdateTreatment {
   id: number;
-  medicineidId: number;
-  tenantidId: number;
+  medicineid: number;
+  tenantid: number;
   dose: number;
   // period: string;
 }

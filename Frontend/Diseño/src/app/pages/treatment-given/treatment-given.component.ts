@@ -42,8 +42,9 @@ export class TreatmentGivenComponent implements OnInit {
     this._treatmentGivenService
     .getTreatmentGiven(((this.page - 1) * this.items).toString(), this.items.toString())
     .subscribe((response) => {
-      this.registerNumber = response.registers; ///////// importatne para paginacion
-      this.treatmentGivenList = response.data;
+      this.registerNumber = response.totalItems; ///////// importatne para paginacion
+      this.treatmentGivenList = response.items;
+      console.log(this.treatmentGivenList);
     });
   }
 
@@ -52,17 +53,12 @@ export class TreatmentGivenComponent implements OnInit {
       let treatmentGivenTemp: UpdateTreatmentGiven = {
         id: null,
         date: this.formTreatmentGiven.getRawValue().date,
-        treatmentidId: this.formTreatmentGiven.getRawValue().treatmentid.id
+        treatmentid: this.formTreatmentGiven.getRawValue().treatmentid.id
       };
       this._treatmentGivenService
         .createTreatmentGiven(treatmentGivenTemp)
         .subscribe((response) => {
           this.onLoadRegisters();
-          this._treatmentGivenService.showInfo(
-            response.status,
-            response.code,
-            response.message
-          );
         });
       this.formTreatmentGiven.reset();
     } else {
@@ -80,17 +76,12 @@ export class TreatmentGivenComponent implements OnInit {
       let treatmentGivenTemp: UpdateTreatmentGiven = {
         id: this.editTreatmentGiven.id,
         date: this.formTreatmentGiven.getRawValue().date,
-        treatmentidId: this.formTreatmentGiven.getRawValue().treatmentid.id
+        treatmentid: this.formTreatmentGiven.getRawValue().treatmentid.id
       };
       this.editTreatmentGiven = null;
       this.formTreatmentGiven.reset();
       this._treatmentGivenService.updateTreatmentGiven(treatmentGivenTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._treatmentGivenService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
     } else {
       console.log(this.formTreatmentGiven.controls)
@@ -98,16 +89,18 @@ export class TreatmentGivenComponent implements OnInit {
   }
 
   onEditTreatmentGiven(treatmentGiven: TreatmentGiven): void {
-    treatmentGiven.treatmentid.data = `${treatmentGiven.treatmentid.medicineid.name} ${treatmentGiven.treatmentid.dose} ${treatmentGiven.treatmentid.tenantid.firstname}
-    ${treatmentGiven.treatmentid.tenantid.lastname}`;
-    this.formTreatmentGiven.controls.date.setValue(treatmentGiven.date);
-    this.formTreatmentGiven.controls.treatmentid.setValue(treatmentGiven.treatmentid);
+    let treatmentGivenTemp = this.treatmentList.find((treatment) => treatment.id == treatmentGiven.treatmentid);
+    let treatmentGivenData = `${treatmentGivenTemp.medicineid.name} ${treatmentGivenTemp.medicineid.description} 
+      ${treatmentGivenTemp.medicineid.type} ${treatmentGivenTemp.medicineid.notes} ${treatmentGivenTemp.dose} 
+      ${treatmentGivenTemp.period}`;
     this.editTreatmentGiven = treatmentGiven;
+    this.formTreatmentGiven.controls.date.setValue(treatmentGiven.date);
+    this.formTreatmentGiven.controls.treatmentid.setValue(treatmentGivenData);
   }
 
   onLoadTreatments(): void {
     this._treatmentGivenService.getTreatments().subscribe((response) => {
-      this.treatmentList = response.data;
+      this.treatmentList = response.items;
       this.treatmentList.map((treatment) => {
         treatment.data = `${treatment.medicineid?.name} ${treatment.dose} ${treatment.tenantid.firstname}
         ${treatment.tenantid.lastname} `;
@@ -129,14 +122,7 @@ export class TreatmentGivenComponent implements OnInit {
 
   onDeleteTreatmentGiven(id: number): void {
     this._treatmentGivenService.deleteTreatmentGiven(id).subscribe((response) => {
-      if (response.code === 202) {
-        this.onLoadRegisters();
-      }
-      this._treatmentGivenService.showInfo(
-        response.status,
-        response.code,
-        response.message
-      );
+      this.onLoadRegisters();
     });
   }
   pageChanged(data: any) {
