@@ -23,7 +23,7 @@ export class TreatmentGivenService {
     params = params.append("page", page);
     params = params.append("perPage", size);
     let url = `${this._URL}${this._TREATMENTGIVEN}`;
-    return this._http.get<TreatmentGivenResponse>(this._URL + this._TREATMENTGIVEN,{params}).pipe(
+    return this._http.get<TreatmentGivenResponse>(this._URL + this._TREATMENTGIVEN+"?expand=treatmentid",{params}).pipe(
       take(1),
       catchError((error) => {
         this.errorHandle(error);
@@ -40,7 +40,7 @@ export class TreatmentGivenService {
     params = params.append("page", page);
     params = params.append("perPage", size);
     let url = `${this._URL}${this._TREATMENTS}`;
-    return this._http.get<TreatmentResponse>(url,{params}).pipe(
+    return this._http.get<TreatmentResponse>(url+"?expand=tenantid, medicineid",{params}).pipe(
       take(1),
       catchError((error) => {
         this.errorHandle(error);

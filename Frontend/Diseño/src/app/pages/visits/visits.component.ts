@@ -87,6 +87,7 @@ export class VisitsComponent implements OnInit {
       );
       const { visitanteName, visitanteDui, date, tenantId, notes } =
         this.formVisit.getRawValue();
+        console.log(this.formVisit.getRawValue());
       let visitTemp: PayloadVisit = {
         id: this.editVisit.id,
         name: visitanteName,
@@ -111,7 +112,7 @@ export class VisitsComponent implements OnInit {
     } ${moment(tenantTemp.birthday).format("DD/MM/YYYY")}`;
     this.formVisit.controls.visitanteName.setValue(visit.name);
     this.formVisit.controls.visitanteDui.setValue(visit.dui);
-    this.formVisit.controls.date.setValue(visit.date);
+    this.formVisit.controls.date.setValue(moment(visit.date).format("YYYY-MM-DD"));
     this.formVisit.controls.tenantId.setValue(tenantData);
     this.formVisit.controls.notes.setValue(visit.note);
     this.editVisit = visit;

@@ -1,17 +1,17 @@
 import { API_RESPONSE } from "./common";
 
 export interface VisitsResponse extends API_RESPONSE {
-  data: Visit[];
+  items: Visit[];
 }
 
 export interface TenantResponse extends API_RESPONSE {
-  data: Tenant[];
+  items: Tenant[];
 }
 
 export interface Visit {
   id: number;
   name: string;
-  tenantid: Tenant;
+  tenantid: number;
   dui: string;
   date: string;
   note: string;
@@ -20,7 +20,7 @@ export interface Visit {
 export interface PayloadVisit {
   id: number;
   name: string;
-  tenantidId: string;
+  tenantid: string;
   dui: string;
   date: string;
   note: string;

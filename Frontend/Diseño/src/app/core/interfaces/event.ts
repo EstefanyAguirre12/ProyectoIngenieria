@@ -1,7 +1,7 @@
 import { API_RESPONSE } from "./common";
 
 export interface EventResponse extends API_RESPONSE {
-  data: Event[];
+  items: Event[];
 }
 
 export interface Event {

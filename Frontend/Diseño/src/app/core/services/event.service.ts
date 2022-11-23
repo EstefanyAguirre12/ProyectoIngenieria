@@ -64,7 +64,7 @@ export class EventService {
 
   updateEvent(register: UpdateEvent): Observable<ActionResponse> {
     let url = `${this._URL}${this._EVENT}/${register.id}/`;
-    return this._http.put<ActionResponse>(url, register).pipe(
+    return this._http.patch<ActionResponse>(url, register).pipe(
       take(1),
       catchError((error) => {
         this.errorHandle(error);

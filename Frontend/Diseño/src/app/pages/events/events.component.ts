@@ -76,11 +76,13 @@ export class EventsComponent implements OnInit {
         date: this.formEvent.getRawValue().date,
         notes: this.formEvent.getRawValue().notes,
       };
-      this.editEvent = null;
-      this.formEvent.reset();
       this._eventService.updateEvent(eventTemp).subscribe((response) => {
         this.onLoadRegisters();
       });
+      console.log("eventTemp", eventTemp);
+      this.editEvent = null;
+      this.formEvent.reset();
+
     } else {
     }
   }
@@ -94,7 +96,7 @@ export class EventsComponent implements OnInit {
   onEditEvent(event: Event): void {
     this.formEvent.controls.title.setValue(event.title);
     this.formEvent.controls.description.setValue(event.description);
-    this.formEvent.controls.date.setValue(event.date);
+    this.formEvent.controls.date.setValue(moment(event.date).format("YYYY-MM-DD"));
     this.formEvent.controls.notes.setValue(event.notes);
     this.editEvent = event;
   }

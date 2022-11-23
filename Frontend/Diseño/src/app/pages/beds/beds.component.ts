@@ -99,6 +99,7 @@ export class BedsComponent implements OnInit {
   }
 
   onEditBed(bed: Bed): void {
+    //Compare if an object is equal to a number
     let tenantTemp = this.tenatList.find((tenant) => tenant.id == bed.tenantid);
     let tenantData = `${tenantTemp.dui} ${tenantTemp.firstname} ${
       tenantTemp.lastname

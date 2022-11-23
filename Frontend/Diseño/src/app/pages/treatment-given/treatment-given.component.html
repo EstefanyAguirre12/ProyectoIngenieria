@@ -19,7 +19,7 @@
             </div>
             <div class="col-md-8">
               <div class="form-group">
-                <label>Huesped </label>
+                <label>Tratamiento </label>
                 <ng-autocomplete
                   #auto
                   class="w-100"
@@ -108,13 +108,13 @@
                   <ng-container *ngFor="let a of treatmentList; let i = index">
                     {{
                       treatmentList[i].id == item.treatmentid
-                        ? treatmentList[i].medicineid.name
+                        ? treatmentList[i]["@expand"].medicineid.name
                         : ""
                     }}
                     <br />
                   </ng-container>
                 </td>
-                <td class="text-center">
+               <td class="text-center">
                   <ng-container *ngFor="let a of treatmentList; let i = index">
                     {{
                       treatmentList[i].id == item.treatmentid
@@ -124,22 +124,21 @@
                     <br />
                   </ng-container>
                 </td>
-                <td class="text-center">
+                 <td class="text-center">
                   <ng-container *ngFor="let a of treatmentList; let i = index">
                     {{
                       treatmentList[i].id == item.treatmentid
-                        ? treatmentList[i].tenantid.firstname
+                        ? treatmentList[i]["@expand"].tenantid.firstname
                         : ""
                     }}
                     <br />
                   </ng-container>
                 </td>
                 <td class="text-center">
-                  {{item.treatmentid.tenantid.lastname}}
                   <ng-container *ngFor="let a of treatmentList; let i = index">
                     {{
                       treatmentList[i].id == item.treatmentid
-                        ? treatmentList[i].tenantid.lastname
+                        ? treatmentList[i]["@expand"].tenantid.lastname
                         : ""
                     }}
                     <br />

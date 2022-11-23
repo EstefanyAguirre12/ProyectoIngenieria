@@ -3,6 +3,7 @@ import { TreatmentGiven, CreateTreatmentGiven, Treatmentid, UpdateTreatmentGiven
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AutocompleteComponent } from 'angular-ng-autocomplete';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-treatment-given',
@@ -44,7 +45,6 @@ export class TreatmentGivenComponent implements OnInit {
     .subscribe((response) => {
       this.registerNumber = response.totalItems; ///////// importatne para paginacion
       this.treatmentGivenList = response.items;
-      console.log(this.treatmentGivenList);
     });
   }
 
@@ -90,20 +90,19 @@ export class TreatmentGivenComponent implements OnInit {
 
   onEditTreatmentGiven(treatmentGiven: TreatmentGiven): void {
     let treatmentGivenTemp = this.treatmentList.find((treatment) => treatment.id == treatmentGiven.treatmentid);
-    let treatmentGivenData = `${treatmentGivenTemp.medicineid.name} ${treatmentGivenTemp.medicineid.description} 
-      ${treatmentGivenTemp.medicineid.type} ${treatmentGivenTemp.medicineid.notes} ${treatmentGivenTemp.dose} 
-      ${treatmentGivenTemp.period}`;
+    let treatmentGivenData = `${treatmentGivenTemp['@expand'].medicineid?.name} ${treatmentGivenTemp.dose} ${treatmentGivenTemp['@expand'].tenantid.firstname} ${treatmentGivenTemp['@expand'].tenantid.lastname}`;
     this.editTreatmentGiven = treatmentGiven;
-    this.formTreatmentGiven.controls.date.setValue(treatmentGiven.date);
+    this.formTreatmentGiven.controls.date.setValue(moment(treatmentGiven.date).format("YYYY-MM-DD"));
     this.formTreatmentGiven.controls.treatmentid.setValue(treatmentGivenData);
   }
 
   onLoadTreatments(): void {
     this._treatmentGivenService.getTreatments().subscribe((response) => {
       this.treatmentList = response.items;
-      this.treatmentList.map((treatment) => {
-        treatment.data = `${treatment.medicineid?.name} ${treatment.dose} ${treatment.tenantid.firstname}
-        ${treatment.tenantid.lastname} `;
+      let expand;
+      this.treatmentList.map((treatment, i) => {
+          expand=response.items[i]['@expand'];
+          treatment.data = `${expand.medicineid?.name} ${treatment.dose} ${expand.tenantid.firstname} ${expand.tenantid.lastname} `;
       });
     });
   }
