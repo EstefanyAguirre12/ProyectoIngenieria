@@ -1,0 +1,31 @@
+{
+  "status": "OK",
+  "message": "Message:Unauthorized",
+  "code": "CODE_200",
+  "data": [
+      {
+          "id": 1,
+          "name": "Donation 1",
+          "date": "2/2/2020",
+          "notes": "Note 1",
+          "type": "Tipo 1",
+          "amount": 100
+      },
+      {
+        "id": 2,
+        "name": "Donation 2",
+        "date": "2/2/2020",
+        "notes": "Note 2",
+        "type": "Tipo 2",
+        "amount": 100
+    },
+    {
+      "id": 3,
+      "name": "Donation 3",
+      "date": "2/2/2020",
+      "notes": "Note 3",
+      "type": "Tipo 3",
+      "amount": 100
+  }
+  ]
+}

@@ -1,0 +1,267 @@
+{
+  "status": "OK",
+  "message": "Message:Unauthorized",
+  "code": "CODE_200",
+  "data": [
+    {
+      "id": 1,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 2,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 1,
+        "name": "Admin",
+        "description": "ROLE 1 description"
+      }
+    },
+    {
+      "id": 3,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 4,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 5,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 1,
+        "name": "Admin",
+        "description": "ROLE 1 description"
+      }
+    },
+    {
+      "id": 6,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 7,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 8,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 9,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 10,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 11,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 12,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 1,
+        "name": "Admin",
+        "description": "ROLE 1 description"
+      }
+    },
+    {
+      "id": 13,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 14,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 15,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 16,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 3,
+        "name": "Guest",
+        "description": "ROLE 3 description"
+      }
+    },
+    {
+      "id": 17,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 18,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 19,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 2,
+        "name": "Employed",
+        "description": "ROLE 2 description"
+      }
+    },
+    {
+      "id": 20,
+      "birthday": "1999-10-29",
+      "firstname": "firstname",
+      "gender": "gender",
+      "lastname": "lastname",
+      "username": "username",
+      "roleid": {
+        "id": 3,
+        "name": "Guest",
+        "description": "ROLE 3 description"
+      }
+    }
+  ]
+}

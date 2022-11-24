@@ -3,6 +3,7 @@ package main
 import (
     "log"
     "net/http"
+    "os"
 
     "github.com/labstack/echo/v5"
     "github.com/pocketbase/pocketbase"
@@ -12,9 +13,8 @@ import (
 
 func main() {
     app := pocketbase.New()
-
+    setupCustomRoutes(app)
     app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
-        // add new "GET /api/hello" route to the app router (echo)
         e.Router.AddRoute(echo.Route{
             Method: http.MethodGet,
             Path:   "/api/hello",
@@ -32,4 +32,17 @@ func main() {
     if err := app.Start(); err != nil {
         log.Fatal(err)
     }
+}
+func SetupStaticFrontendRoutes(app *pocketbase.PocketBase) {
+	//Static frontend
+	app.OnBeforeServe().Add(func(e *core.ServeEvent) error {
+		// serves static files from the provided public dir (if exists)
+		e.Router.GET("/*", apis.StaticDirectoryHandler(os.DirFS("./public"), true))
+
+		return nil
+	})
+}
+
+func setupCustomRoutes(app *pocketbase.PocketBase) {
+	SetupStaticFrontendRoutes(app)
 }
