@@ -8,18 +8,18 @@
         <div class="row">
           <div class="col-md-4 pr-1">
             <div class="form-group">
-              <label>Username</label>
+              <label>Email</label>
               <input
                 type="text"
                 class="form-control"
-                placeholder="Username"
-                formControlName="username"
+                placeholder="Email"
+                formControlName="email"
               />
               <p
                 class="text-danger"
                 *ngIf="
-                  this.formUser.get('username').hasError('required') &&
-                  this.formUser.get('username').touched
+                  this.formUser.get('email').hasError('required') &&
+                  this.formUser.get('email').touched
                 "
               >
                 ¡Debe ingresar este campo!
@@ -28,18 +28,18 @@
           </div>
           <div class="col-md-4 pr-1">
             <div class="form-group">
-              <label>Nombres </label>
+              <label>Contraseña </label>
               <input
                 type="text"
                 class="form-control"
-                placeholder="Nombres"
-                formControlName="firstname"
+                placeholder="Contraseña"
+                formControlName="password"
               />
               <p
                 class="text-danger"
                 *ngIf="
-                  this.formUser.get('firstname').hasError('required') &&
-                  this.formUser.get('firstname').touched
+                  this.formUser.get('password').hasError('required') &&
+                  this.formUser.get('password').touched
                 "
               >
                 ¡Debe ingresar este campo!
@@ -48,86 +48,22 @@
           </div>
           <div class="col-md-4 pl-1">
             <div class="form-group">
-              <label>Apellidos</label>
+              <label>Confirmar Contraseña</label>
               <input
                 type="text"
                 class="form-control"
-                placeholder="Apellido"
-                formControlName="lastname"
+                placeholder="Confirmar Contraseña"
+                formControlName="passwordConfirm"
               />
               <p
                 class="text-danger"
                 *ngIf="
-                  this.formUser.get('lastname').hasError('required') &&
-                  this.formUser.get('lastname').touched
+                  this.formUser.get('passwordConfirm').hasError('required') &&
+                  this.formUser.get('passwordConfirm').touched
                 "
               >
                 ¡Debe ingresar este campo!
               </p>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 pr-1">
-            <div class="form-group">
-              <label>Fecha de nacimiento</label>
-              <input
-                type="date"
-                class="form-control"
-                placeholder="fecha"
-                formControlName="date"
-              />
-              <p
-                class="text-danger"
-                *ngIf="
-                  this.formUser.get('date').hasError('required') &&
-                  this.formUser.get('date').touched
-                "
-              >
-                ¡Debe ingresar este campo!
-              </p>
-            </div>
-          </div>
-          <div class="col-md-4 px-1">
-            <div class="form-group">
-              <label>Genero </label>
-              <div ngbDropdown class="">
-                <a
-                  class="btn btn-outline-primary"
-                  id="dropdownBasic1"
-                  ngbDropdownToggle
-                >
-                  {{ gender == null ? "Seleccionar" : gender.name }}
-                </a>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <ng-container *ngFor="let gender of this.genders">
-                    <a (click)="onSetGender(gender)" ngbDropdownItem>{{
-                      gender.name
-                    }}</a>
-                  </ng-container>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 pl-1">
-            <div class="form-group">
-              <label>Rol </label>
-              <div ngbDropdown class="">
-                <a
-                  class="btn btn-outline-primary"
-                  id="dropdownBasic2"
-                  ngbDropdownToggle
-                >
-                  {{ rol == null ? "Seleccionar" : rol.name }}
-                </a>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
-                  <ng-container *ngFor="let rol of this.roles">
-                    <a (click)="onSetRol(rol)" ngbDropdownItem>{{
-                      rol.name
-                    }}</a>
-                  </ng-container>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -156,11 +92,7 @@
         <table class="table">
           <thead class="text-primary">
             <th class="">Nombres</th>
-            <th class="">Apellidos</th>
-            <th class="">Fecha de nacimiento</th>
-            <th class="">Genero</th>
-            <th class="">Rol</th>
-            <th class="">Usuario</th>
+            <th class="">Fecha de creacion</th>
             <th class="">Acción</th>
           </thead>
           <tbody>
@@ -170,12 +102,8 @@
                   | paginate: { id: 'data', itemsPerPage: items, currentPage: page , totalItems: registerNumber }
               "
             >
-              <td class="">{{ user.firstname }}</td>
-              <td class="">{{ user.lastname }}</td>
-              <td class="">{{ user.birthday | date: "short" }}</td>
-              <td class="">{{ user.gender }}</td>
-              <td class="">{{ user.roleid.name }}</td>
-              <td class="">{{ user.username }}</td>
+              <td class="">{{ user.email }}</td>
+              <td class="">{{ user.created | date: "short" }}</td>
               <td class="d-flex justify-content-center">
                 <button
                   type="submit"

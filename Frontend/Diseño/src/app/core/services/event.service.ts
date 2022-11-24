@@ -13,14 +13,14 @@ import { Event, EventResponse, CreateEvent, UpdateEvent } from "../interfaces/ev
 })
 export class EventService {
   private readonly _URL = environment.api;
-  private readonly _EVENT = "event";
+  private readonly _EVENT = "event/records";
 
   constructor(private _http: HttpClient, private _toastr: ToastrService) { }
 
   getEvents(page: string = "0", size: string = "100"): Observable<EventResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._EVENT}`;
     return this._http.get<EventResponse>(url,{params}).pipe(
       take(1),
@@ -64,7 +64,7 @@ export class EventService {
 
   updateEvent(register: UpdateEvent): Observable<ActionResponse> {
     let url = `${this._URL}${this._EVENT}/${register.id}/`;
-    return this._http.put<ActionResponse>(url, register).pipe(
+    return this._http.patch<ActionResponse>(url, register).pipe(
       take(1),
       catchError((error) => {
         this.errorHandle(error);

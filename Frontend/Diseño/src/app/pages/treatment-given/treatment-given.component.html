@@ -19,7 +19,7 @@
             </div>
             <div class="col-md-8">
               <div class="form-group">
-                <label>Huesped </label>
+                <label>Tratamiento </label>
                 <ng-autocomplete
                   #auto
                   class="w-100"
@@ -105,16 +105,44 @@
                   {{item.date}}
                 </td>
                 <td class="text-center">
-                  {{item.treatmentid.medicineid.name}}
+                  <ng-container *ngFor="let a of treatmentList; let i = index">
+                    {{
+                      treatmentList[i].id == item.treatmentid
+                        ? treatmentList[i]["@expand"].medicineid.name
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
+                </td>
+               <td class="text-center">
+                  <ng-container *ngFor="let a of treatmentList; let i = index">
+                    {{
+                      treatmentList[i].id == item.treatmentid
+                        ? treatmentList[i].dose
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
+                </td>
+                 <td class="text-center">
+                  <ng-container *ngFor="let a of treatmentList; let i = index">
+                    {{
+                      treatmentList[i].id == item.treatmentid
+                        ? treatmentList[i]["@expand"].tenantid.firstname
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="text-center">
-                  {{item.treatmentid.dose}}
-                </td>
-                <td class="text-center">
-                  {{item.treatmentid.tenantid.firstname}}
-                </td>
-                <td class="text-center">
-                  {{item.treatmentid.tenantid.lastname}}
+                  <ng-container *ngFor="let a of treatmentList; let i = index">
+                    {{
+                      treatmentList[i].id == item.treatmentid
+                        ? treatmentList[i]["@expand"].tenantid.lastname
+                        : ""
+                    }}
+                    <br />
+                  </ng-container>
                 </td>
                 <td class="text-center">
                   <button type="submit" class="btn btn-primary btn-link nc-icon nc-ruler-pencil"

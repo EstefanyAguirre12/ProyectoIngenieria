@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, HostBinding, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "app/core/services/auth.service";
@@ -11,7 +11,6 @@ import { AuthService } from "app/core/services/auth.service";
 export class LoginComponent implements OnInit {
   ///////////////////////////////////////////////////////////////////////////////
   /* constructor  */
-
   constructor(private _authService: AuthService,private router:Router) {}
   loginForm!: FormGroup;
 
@@ -30,7 +29,7 @@ export class LoginComponent implements OnInit {
     this._authService
       .onAutenticateCredentials(this.loginForm.getRawValue())
       .subscribe((Response) => {
-        console.log(Response);
+        localStorage.setItem('user', JSON.stringify(Response));
         this._authService.onSetToken(Response.token);
         this.router.navigate(["/dashboard"]);
       });

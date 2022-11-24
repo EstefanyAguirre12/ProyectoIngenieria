@@ -1,44 +1,19 @@
 import { API_RESPONSE } from "./common";
 
-
-export interface Gender{
- name:string;
+export interface AdminResponse extends API_RESPONSE {
+  items: Admin[];
+  totalItems: number;
 }
 
-export interface UsersResponse extends API_RESPONSE {
-  data: User[];
-}
-
-export interface RolesResponse extends API_RESPONSE {
-  data: Rol[];
-}
-
-export interface GenderResponse extends API_RESPONSE {
-  data: Gender[];
-}
-
-export interface User {
+export interface Admin {
   id: number;
-  birthday: string;
-  firstname: string;
-  gender: string;
-  lastname: string;
-  username: string;
-  roleid: Rol;
+  email: string;
+  password: string;
+  passwordConfirm: string;
 }
 
-export interface UserPayload {
-  id: number;
-  birthday: string;
-  firstname: string;
-  gender: string;
-  lastname: string;
-  username: string;
-  roleidId: string;
-}
-
-export interface Rol {
-  id: number;
-  name: string;
-  description: string;
+export interface CreateAdmin {
+  email: string;
+  password: string;
+  passwordConfirm: string;
 }

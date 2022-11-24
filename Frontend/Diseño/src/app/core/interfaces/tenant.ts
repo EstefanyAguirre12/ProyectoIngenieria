@@ -1,7 +1,7 @@
 import { API_RESPONSE } from './common';
 export interface TenantResponse extends API_RESPONSE{
   statusText(statusText: any, arg1: string);
-  data: Tenant[];
+  items: Tenant[];
 }
 export interface Tenant {
   id: number;

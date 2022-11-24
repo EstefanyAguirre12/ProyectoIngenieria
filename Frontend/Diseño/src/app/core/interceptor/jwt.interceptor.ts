@@ -24,7 +24,7 @@ export class JwtInterceptor implements HttpInterceptor {
     if (token) {
       newReq = request.clone({
         setHeaders: {
-          Authorization: token,
+          Authorization: 'Admin '+token,
         },
       });
     }

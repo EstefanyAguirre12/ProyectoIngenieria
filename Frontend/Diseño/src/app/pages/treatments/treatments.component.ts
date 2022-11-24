@@ -43,8 +43,9 @@ export class TreatmentsComponent implements OnInit {
     this._treatmentService
       .getTreatments(((this.page - 1) * this.items).toString(), this.items.toString())
       .subscribe((response) => {
-        this.registerNumber = response.registers; ///////// importatne para paginacion
-        this.treatmentList = response.data;
+        this.registerNumber = response.totalItems; ///////// importante para paginacion
+        this.treatmentList = response.items;
+        console.log(this.treatmentList);
       });
   }
 
@@ -60,17 +61,12 @@ export class TreatmentsComponent implements OnInit {
     if (this.formTreatment.valid) {
       let treatmentTemp: UpdateTreatment = {
         id: null,
-        medicineidId: this.formTreatment.getRawValue().medicineId.id,
-        tenantidId: this.formTreatment.getRawValue().tenantId.id,
+        medicineid: this.formTreatment.getRawValue().medicineId.id,
+        tenantid: this.formTreatment.getRawValue().tenantId.id,
         dose: this.formTreatment.getRawValue().dose,
       };
       this._treatmentService.createTreatment(treatmentTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._treatmentService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
       this.formTreatment.reset();
     } else {
@@ -91,19 +87,14 @@ export class TreatmentsComponent implements OnInit {
       );
       let treatmentTemp: UpdateTreatment = {
         id: this.editTreatment.id,
-        medicineidId: this.formTreatment.getRawValue().medicineId.id,
-        tenantidId: this.formTreatment.getRawValue().tenantId.id,
+        medicineid: this.formTreatment.getRawValue().medicineId.id,
+        tenantid: this.formTreatment.getRawValue().tenantId.id,
         dose: this.formTreatment.getRawValue().dose,
       };
       this.editTreatment = null;
       this.formTreatment.reset();
       this._treatmentService.updateTreatment(treatmentTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._treatmentService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
     } else {
     }
@@ -111,34 +102,25 @@ export class TreatmentsComponent implements OnInit {
 
   onDeleteTreatment(id: Number): void {
     this._treatmentService.deleteTreatment(id).subscribe((response) => {
-      if (response.code === 202) {
-        this.onLoadRegisters();
-      }
-      this._treatmentService.showInfo(
-        response.status,
-        response.code,
-        response.message
-      );
+      this.onLoadRegisters();
     });
   }
 
-  onEditTreatment(treatment: Treatment): void {
-    treatment.medicineid.data = `${treatment.medicineid.name} ${treatment.medicineid.description}
-    ${treatment.medicineid.type} ${treatment.medicineid.notes}`;
-    treatment.tenantid.data = `${treatment.tenantid.dui} ${
-      treatment.tenantid.firstname
-    } ${treatment.tenantid.lastname} ${moment(
-      treatment.tenantid.birthday
-    ).format("DD/MM/YYYY")}`;
-    this.formTreatment.controls.dose.setValue(treatment.dose);
-    this.formTreatment.controls.medicineId.setValue(treatment.medicineid.data);
-    this.formTreatment.controls.tenantId.setValue(treatment.tenantid.data);
+  onEditTreatment(treatment: Treatment): void { 
+    let medicineTemp = this.medicineList.find((medicine) => medicine.id == treatment.medicineid);
+    console.log(medicineTemp);
+    let medicineData = `${medicineTemp.name} ${medicineTemp.description}`; 
+    let tenantTemp = this.tenatList.find((tenant) => tenant.id == treatment.tenantid);
+    let tenantData = `${tenantTemp.dui} ${tenantTemp.firstname} ${tenantTemp.lastname} ${moment(tenantTemp.birthday).format("DD/MM/YYYY")}`;
     this.editTreatment = treatment;
+    this.formTreatment.controls.medicineId.setValue(medicineData);
+    this.formTreatment.controls.tenantId.setValue(tenantData);
+    this.formTreatment.controls.dose.setValue(treatment.dose);
   }
 
   onLoadTenants(): void {
     this._treatmentService.getTenantsFree().subscribe((response) => {
-      this.tenatList = response.data;
+      this.tenatList = response.items;
       this.tenatList.map((tenant) => {
         tenant.data = `${tenant.dui} ${tenant.firstname} ${
           tenant.lastname
@@ -149,7 +131,7 @@ export class TreatmentsComponent implements OnInit {
 
   onLoadMedicines(): void {
     this._treatmentService.getMedicinesFree().subscribe((response) => {
-      this.medicineList = response.data;
+      this.medicineList = response.items;
       this.medicineList.map((medicine) => {
         medicine.data = `${medicine.name} ${medicine.description}
         ${medicine.type} ${medicine.notes}`;

@@ -2,11 +2,11 @@ export interface API_RESPONSE {
   status: string;
   message: string;
   code: number;
-  registers: number;
+  totalItems: number;
 }
 
 export interface ActionResponse extends API_RESPONSE {
-  data: {
+  items: {
     id: number | null;
   };
 }

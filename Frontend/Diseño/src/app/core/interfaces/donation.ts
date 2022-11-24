@@ -1,7 +1,8 @@
 import { API_RESPONSE } from "./common";
 
 export interface DonationResponse extends API_RESPONSE {
-  data: Donation[];
+  totalItems: number;
+  items: Donation[];
 }
 export interface Donation {
   id: number;

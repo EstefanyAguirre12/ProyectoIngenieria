@@ -37,8 +37,8 @@ export class EventsComponent implements OnInit {
     this._eventService
       .getEvents(((this.page - 1) * this.items).toString(), this.items.toString())
       .subscribe((response) => {
-        this.registerNumber = response.registers;
-        this.eventList = response.data;
+        this.registerNumber = response.totalItems;
+        this.eventList = response.items;
       });
   }
 
@@ -61,11 +61,6 @@ export class EventsComponent implements OnInit {
       };
       this._eventService.createEvent(eventTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._eventService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
       this.formEvent.reset();
     } else {
@@ -81,37 +76,27 @@ export class EventsComponent implements OnInit {
         date: this.formEvent.getRawValue().date,
         notes: this.formEvent.getRawValue().notes,
       };
-      this.editEvent = null;
-      this.formEvent.reset();
       this._eventService.updateEvent(eventTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._eventService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
+      console.log("eventTemp", eventTemp);
+      this.editEvent = null;
+      this.formEvent.reset();
+
     } else {
     }
   }
 
   onDeleteEvent(id: Number): void {
     this._eventService.deleteEvent(id).subscribe((response) => {
-      if (response.code === 202) {
-        this.onLoadRegisters();
-      }
-      this._eventService.showInfo(
-        response.status,
-        response.code,
-        response.message
-      );
+      this.onLoadRegisters();
     });
   }
 
   onEditEvent(event: Event): void {
     this.formEvent.controls.title.setValue(event.title);
     this.formEvent.controls.description.setValue(event.description);
-    this.formEvent.controls.date.setValue(event.date);
+    this.formEvent.controls.date.setValue(moment(event.date).format("YYYY-MM-DD"));
     this.formEvent.controls.notes.setValue(event.notes);
     this.editEvent = event;
   }

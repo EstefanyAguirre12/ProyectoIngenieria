@@ -1,17 +1,17 @@
 import { API_RESPONSE } from "./common";
 
 export interface BedResponse extends API_RESPONSE {
-  data: Bed[];
+  items: Bed[];
 }
 
 export interface TenantResponse extends API_RESPONSE {
-  data: Tenant[];
+  items: Tenant[];
 }
 
 export interface Bed {
   id: number | null;
   number: number;
-  tenantid: Tenant;
+  tenantid: number;
 }
 
 export interface Tenant {

@@ -10,62 +10,31 @@ import { EMPTY, Observable } from "rxjs";
 import { catchError, map, take } from "rxjs/operators";
 import { ActionResponse } from "../interfaces/common";
 import {
-  Gender,
-  GenderResponse,
-  RolesResponse,
-  User,
-  UserPayload,
-  UsersResponse,
+  AdminResponse, CreateAdmin, Admin
 } from "../interfaces/user";
 
 @Injectable({
   providedIn: "root",
 })
 export class UserService {
-  private readonly _URL = environment.api;
-  private readonly _USERS = "users";
-  private readonly _ROLS = "role";
-  private readonly _GENDER = "gender";
+  private readonly _URL = environment.apiAdmin;
+  private readonly _USERS = "admins";
 
   constructor(private _http: HttpClient, private _toastr: ToastrService) {}
 
-  getUsers(page:string="0",size:string="100"): Observable<UsersResponse> {
+  getUsers(page:string="0",size:string="100"): Observable<AdminResponse> {
     let params = new HttpParams();
     params = params.append("page", page );
     params = params.append("size", size);
     let url = `${this._URL}${this._USERS}`;
-    return this._http.get<UsersResponse>(url, { params }).pipe(
+    return this._http.get<AdminResponse>(url, { params }).pipe(
       take(1),
       catchError((error) => {
         this.errorHandle(error);
         return EMPTY;
       }),
-      map((Response: UsersResponse) => {
+      map((Response: AdminResponse) => {
         return Response;
-      })
-    );
-  }
-
-  getRoles(): Observable<RolesResponse> {
-    let url = `${this._URL}${this._ROLS}`;
-    return this._http.get<RolesResponse>(url).pipe(
-      take(1),
-      catchError((error) => {
-        this.errorHandle(error);
-        return EMPTY;
-      }),
-      map((Response: RolesResponse) => {
-        return Response;
-      })
-    );
-  }
-
-  getGender(): Observable<GenderResponse> {
-    return this._http.get<GenderResponse>(this._URL + this._GENDER).pipe(
-      take(1),
-      catchError((error) => {
-        this.errorHandle(error);
-        return EMPTY;
       })
     );
   }
@@ -85,9 +54,9 @@ export class UserService {
     );
   }
 
-  createUser(payload: UserPayload): Observable<ActionResponse> {
+  createUser(register: CreateAdmin): Observable<any> {
     let url = `${this._URL}${this._USERS}`;
-    return this._http.post<ActionResponse>(url, payload).pipe(
+    return this._http.post<ActionResponse>(url, register).pipe(
       take(1),
       catchError((error) => {
         this.errorHandle(error);
@@ -99,9 +68,9 @@ export class UserService {
     );
   }
 
-  updateUser(payload: UserPayload): Observable<ActionResponse> {
-    let url = `${this._URL}${this._USERS}/${payload.id}/`;
-    return this._http.patch<ActionResponse>(url, payload).pipe(
+  updateAdmin(register: Admin): Observable<any> {
+    let url = `${this._URL}${this._USERS}/${register.id}/`;
+    return this._http.patch<ActionResponse>(url, register).pipe(
       take(1),
       catchError((error) => {
         this.errorHandle(error);

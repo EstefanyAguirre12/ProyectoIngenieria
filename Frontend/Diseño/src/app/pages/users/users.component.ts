@@ -1,5 +1,5 @@
 import { take } from "rxjs/operators";
-import { Gender, Rol, User, UserPayload } from "./../../core/interfaces/user";
+import { Admin, AdminResponse, CreateAdmin } from "./../../core/interfaces/user";
 import { Component, OnInit } from "@angular/core";
 import { UserService } from "app/core/services/user.service";
 import { zip } from "rxjs";
@@ -16,86 +16,55 @@ export class UsersComponent implements OnInit {
   items: number = 10;
   registerNumber: number = 0;
   ////////////////////////////////////////////////////////////////////////////////
+  public usersList: Admin[] = [];
+  public userListCreate: CreateAdmin[] = [];
+  ////////////////////////////////////////////////////////////////////////////////
+  keyword: string = "data";
+  editUser: Admin = null;
 
-  public gender: Gender = null;
-  public rol: Rol = null;
-  public usersList: User[] = [];
-  public roles: Rol[] = [];
-  public genders: Gender[] = [];
 
   public formUser: FormGroup = new FormGroup({
-    id: new FormControl(null, []),
-    username: new FormControl(null, [Validators.required]),
-    firstname: new FormControl(null, [Validators.required]),
-    lastname: new FormControl(null, [Validators.required]),
-    date: new FormControl(null, [Validators.required]),
-    gender: new FormControl(null, [Validators.required]),
-    roleid: new FormControl(null, [Validators.required]),
+    email: new FormControl(null, [Validators.required]),
+    password: new FormControl(null, [Validators.required]),
+    passwordConfirm: new FormControl(null, [Validators.required]),
   });
 
   constructor(private _userService: UserService) {}
 
   ngOnInit(): void {
-    zip(this._userService.getRoles(), this._userService.getGender())
-      .pipe(take(1))
-      .subscribe(([roles, genders]) => {
-        this.roles = roles.data;
-        this.genders = genders.data;
-      });
     this.onLoadRegisters();
   }
   onLoadRegisters(): void {
+    this._userService.getUsers().subscribe((response) => {
+      this.usersList = response.items;
+    });
+    
     this._userService
-      .getUsers(
-        ((this.page - 1) * this.items).toString(),
-        this.items.toString()
-      )
-      .subscribe((users) => {
-        this.registerNumber = users.registers; ///////// importatne para paginacion
-        this.usersList = users.data;
-      });
-
+    .getUsers(((this.page - 1) * this.items).toString(), this.items.toString())
+    .subscribe((response) => {
+      this.registerNumber = response.totalItems; ///////// importatne para paginacion
+      this.usersList = response.items;
+      console.log(this.usersList);
+    });
   }
-
-      /*  zip(
-      this._userService.getUsers(((this.page-1)* this.items ).toString(),this.items.toString()),
-      this._userService.getRoles(),
-      this._userService.getGender()
-    )
-      .pipe(take(1))
-      .subscribe(([users, roles, genders]) => {
-        this.registerNumber = users.registers;
-        this.usersList = users.data;
-        console.log(users.data);
-        this.roles = roles.data;
-        this.genders = genders.data;
-      }); */
-
+  
   onSaveEdit(): void {
-    if (this.formUser.controls.id.value == null) {
-      console.log("Creando");
+    if (this.editUser == null) {
       this.onCreateUser();
     } else {
-      console.log("Actualizando");
       this.onUpdateUser();
     }
   }
 
   onCreateUser(): void {
-    console.log(this.formUser.value);
     if (this.formUser.valid) {
-      const { id, username, firstname, lastname, date, gender, roleid } =
-        this.formUser.getRawValue();
-      let temp: UserPayload = {
-        id: null,
-        username: username,
-        birthday: date,
-        firstname: firstname,
-        gender: gender,
-        lastname: lastname,
-        roleidId: roleid.id,
+      let userTemp: CreateAdmin = {
+        email: this.formUser.controls.email.value,
+        password: this.formUser.controls.password.value,
+        passwordConfirm: this.formUser.controls.passwordConfirm.value
       };
-      this._userService.createUser(temp).subscribe((response) => {
+      console.log(this.formUser.getRawValue());
+      this._userService.createUser(userTemp).subscribe((response) => {
         this.onLoadRegisters();
         this._userService.showInfo(
           response.status,
@@ -105,53 +74,32 @@ export class UsersComponent implements OnInit {
       });
       this.formUser.reset();
     } else {
+      console.log(this.formUser.controls)
     }
   }
 
   onUpdateUser(): void {
     if (this.formUser.valid) {
-      const { id, username, firstname, lastname, date, gender, roleid } =
-        this.formUser.getRawValue();
-      let temp: UserPayload = {
-        id: id,
-        username: username,
-        birthday: date,
-        firstname: firstname,
-        gender: gender,
-        lastname: lastname,
-        roleidId: roleid.id,
+      let userTemp: Admin = {
+        id: this.editUser.id,
+        email: this.formUser.getRawValue().email,
+        password: this.formUser.getRawValue().password,
+        passwordConfirm: this.formUser.getRawValue().passwordConfirm
       };
-
-      console.log(this.usersList);
-      this.usersList = this.usersList;
-      this.formUser.reset();
-      this.gender = null;
-      this.rol = null;
-      this._userService.updateUser(temp).subscribe((response) => {
+      this._userService.updateAdmin(userTemp).subscribe((response) => {
         this.onLoadRegisters();
-        this._userService.showInfo(
-          response.status,
-          response.code,
-          response.message
-        );
       });
+      this.formUser.reset();
+      this.editUser = null;
     } else {
+      console.log(this.formUser.controls)
+
     }
   }
 
-  onEditUser(user: User): void {
-    this.rol = user.roleid;
-    this.formUser.controls.id.setValue(user.id);
-    this.formUser.controls.username.setValue(user.username);
-    this.formUser.controls.firstname.setValue(user.firstname);
-    this.formUser.controls.lastname.setValue(user.lastname);
-    this.formUser.controls.date.setValue(user.birthday);
-    this.formUser.controls.gender.setValue(user.gender);
-    this.formUser.controls.roleid.setValue(user.roleid);
-    const tempG: Gender = {
-      name: user.gender,
-    };
-    this.gender = tempG;
+  onEditUser(user: Admin): void {
+    this.formUser.controls.email.setValue(user.email);
+    this.editUser = user;
   }
 
   onDeleteuser(id: Number): void {
@@ -166,18 +114,6 @@ export class UsersComponent implements OnInit {
         response.message
       );
     });
-  }
-
-  onSetGender(gender: Gender): void {
-    //console.log(gender);
-    this.gender = this.gender == gender ? null : gender;
-    this.formUser.controls.gender.setValue(this.gender.name);
-  }
-
-  onSetRol(rol: Rol): void {
-    //console.log(rol);
-    this.rol = this.rol == rol ? null : rol;
-    this.formUser.controls.roleid.setValue(this.rol);
   }
 
   pageChanged(data: any) {

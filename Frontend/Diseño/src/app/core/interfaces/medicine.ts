@@ -1,7 +1,8 @@
 import { API_RESPONSE } from "./common";
 
 export interface MedicineResponse extends API_RESPONSE {
-  data: Medicine[];
+  totalItems: number;
+  items: Medicine[];
 }
 
 export interface Medicine {

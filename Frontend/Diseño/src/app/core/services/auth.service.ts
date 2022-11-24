@@ -11,7 +11,7 @@ import { environment } from "environments/environment";
   providedIn: "root",
 })
 export class AuthService {
-  private readonly _URL = "users/auth-via-email";
+  private readonly _URL = "admins/auth-via-email";
   private readonly _USERS = "users.json";
 
   constructor(private _http: HttpClient, private _toastr: ToastrService) {}
@@ -57,6 +57,8 @@ export class AuthService {
  */
   onSetToken(token: string): void {
     localStorage.setItem("token", token);
+    console.log("Token guardado");
+    
   }
 
   onGetToken(): string {

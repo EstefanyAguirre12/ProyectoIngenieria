@@ -35,6 +35,7 @@ export class DonationsComponent implements OnInit {
   onLoadRegisters(): void {
     this._donationServie.getDonations().subscribe((response) => {
       this.donationList = response.items;
+      console.log(this.donationList);
     });
     this._donationServie
     .getDonations(((this.page - 1) * this.items).toString(), this.items.toString())

@@ -13,17 +13,17 @@ import { ActionResponse } from "../interfaces/common";
 })
 export class TreatmentGivenService {
   private readonly _URL = environment.api;
-  private readonly _TREATMENTGIVEN = "treatmentGiven";
-  private readonly _TREATMENTS= "treatment";
+  private readonly _TREATMENTGIVEN = "treatment_given/records";
+  private readonly _TREATMENTS= "treatment/records";
 
   constructor(private _http: HttpClient, private _toastr: ToastrService ) { }
 
   getTreatmentGiven(page: string = "0", size: string = "100"): Observable<TreatmentGivenResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._TREATMENTGIVEN}`;
-    return this._http.get<TreatmentGivenResponse>(this._URL + this._TREATMENTGIVEN,{params}).pipe(
+    return this._http.get<TreatmentGivenResponse>(this._URL + this._TREATMENTGIVEN+"?expand=treatmentid",{params}).pipe(
       take(1),
       catchError((error) => {
         this.errorHandle(error);
@@ -38,9 +38,9 @@ export class TreatmentGivenService {
   size: string = "1000"): Observable<TreatmentResponse> {
     let params = new HttpParams();
     params = params.append("page", page);
-    params = params.append("size", size);
+    params = params.append("perPage", size);
     let url = `${this._URL}${this._TREATMENTS}`;
-    return this._http.get<TreatmentResponse>(url,{params}).pipe(
+    return this._http.get<TreatmentResponse>(url+"?expand=tenantid, medicineid",{params}).pipe(
       take(1),
       catchError((error) => {
         this.errorHandle(error);
